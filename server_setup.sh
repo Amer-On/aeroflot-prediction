@@ -20,6 +20,14 @@ yes | python3.11 -m pip install --upgrade pip
 # sudo apt-get remove python3.5
 # remove python with dependencies and data files
 # sudo apt-get purge --auto-remove python3.5
+
+# UPDATE LOCALE TO UTF-8
+sudo apt-get install -y locales
+sudo locale-gen en_US.UTF-8
+echo export LC_ALL=en_US.UTF-8 >> ~/.bashrc
+echo export LANG=en_US.UTF-8 >> ~/.bashrc
+
+
 # run ~/.bashrc to apply aliases
 exec bash
 source ~/.bashrc
