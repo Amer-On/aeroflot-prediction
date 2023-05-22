@@ -27,8 +27,12 @@ sudo locale-gen en_US.UTF-8
 echo export LC_ALL=en_US.UTF-8 >> ~/.bashrc
 echo export LANG=en_US.UTF-8 >> ~/.bashrc
 
+# install node and npm
+yes | sudo apt install nodejs
+yes | sudo apt install npm
 
 # run ~/.bashrc to apply aliases
 exec bash
 source ~/.bashrc
 exec zsh
+
