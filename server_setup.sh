@@ -34,10 +34,12 @@ yes | sudo apt install npm
 # install nginx
 yes | sudo apt install nginx
 yes | sudo systemctl start nginx
+sudo systemctl enable nginx
 
 # install redis
 yes | sudo apt install redis-server
 sudo systemctl restart redis.service
+systemctl enable redis-server.service
 
 # run ~/.bashrc to apply aliases
 exec bash
