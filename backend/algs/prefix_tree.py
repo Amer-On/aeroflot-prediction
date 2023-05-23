@@ -32,12 +32,12 @@ class PrefixTree:
             self.add(city)
 
 
-    def fetch_cities(self, node, prefix) -> list:
+    def _fetch_cities(self, node, prefix) -> list:
         res = []
         for city in node:
             if city == 'is_city':
                 continue
-            res += self.fetch_cities(node[city], city)
+            res += self._fetch_cities(node[city], city)
         if node['is_city'] == True:
             res.append(prefix)
         return res
@@ -58,7 +58,7 @@ class PrefixTree:
             currently_prefix = next_node
 
         # fetch cities
-        return sorted(self.fetch_cities(currently_node, currently_prefix))
+        return sorted(self._fetch_cities(currently_node, currently_prefix))
 
 
     def __repr__(self) -> str:
