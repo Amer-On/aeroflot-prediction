@@ -1,0 +1,4 @@
+backend/__pycache__
+backend/algs/__pycache__
+backend/schemas/__pycache__
+backend/config.py

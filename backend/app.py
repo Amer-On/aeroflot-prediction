@@ -1,10 +1,15 @@
-from typing import Union
-from fastapi import FastAPI, Request, Depends
-from starlette.responses import JSONResponse
+import uvicorn
+
+from fastapi import (
+    FastAPI,
+    Request,
+    Depends,
+)
+
 from schemas.base import ErrorResponse, OKResponse
 from schemas.search_models import SearchCitiesResponse
 from algs.prefix_tree import PrefixTree
-
+from auth import auth
 
 app = FastAPI()
 prefix_tree = PrefixTree()
@@ -18,12 +23,19 @@ def parse_prefix(req: Request):
         return req.query_params.get("prefix")
 
 
-@app.get("/ping", response_model=OKResponse)
+@app.get(
+    "/ping",
+    response_model=OKResponse,
+)
 def ping():
     return OKResponse(message="App work")
 
 
-@app.get("/back/cities/search", response_model=SearchCitiesResponse | ErrorResponse)
+@app.get(
+    "/back/cities/search", 
+    response_model=SearchCitiesResponse | ErrorResponse,
+    dependencies=[Depends(auth)]
+)
 def search_cities_by_prefix(prefix: str = Depends(parse_prefix)):
     if not prefix:
         return ErrorResponse(message="Prefix was not passed")
@@ -33,3 +45,7 @@ def search_cities_by_prefix(prefix: str = Depends(parse_prefix)):
         return ErrorResponse(message="Prefix must be a string")
     cities = prefix_tree.get_cities_by_prefix(prefix=prefix)
     return SearchCitiesResponse(cities=cities)
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", port=4567, log_level="info")
