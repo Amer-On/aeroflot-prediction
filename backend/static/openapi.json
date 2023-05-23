@@ -1,0 +1,130 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/ping": {
+            "get": {
+                "summary": "Ping",
+                "operationId": "ping_ping_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OKResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/back/cities/search": {
+            "get": {
+                "summary": "Search Cities By Prefix",
+                "operationId": "search_cities_by_prefix_back_cities_search_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Search Cities By Prefix Back Cities Search Get",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SearchCitiesResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ErrorResponse": {
+                "title": "ErrorResponse",
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "error"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
+            "OKResponse": {
+                "title": "OKResponse",
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "ok"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
+            "SearchCitiesResponse": {
+                "title": "SearchCitiesResponse",
+                "required": [
+                    "cities"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "ok"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "cities": {
+                        "title": "Cities",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "Status": {
+                "title": "Status",
+                "enum": [
+                    "ok",
+                    "error",
+                    "in_progress"
+                ],
+                "description": "An enumeration."
+            }
+        }
+    }
+}
