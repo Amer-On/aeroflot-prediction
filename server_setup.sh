@@ -31,8 +31,14 @@ echo export LANG=en_US.UTF-8 >> ~/.bashrc
 yes | sudo apt install nodejs
 yes | sudo apt install npm
 
+# install nginx
+yes | sudo systemctl start nginx
+
 # run ~/.bashrc to apply aliases
 exec bash
 source ~/.bashrc
 exec zsh
 
+# install redis
+yes | sudo apt install redis-server
+sudo systemctl restart redis.service
