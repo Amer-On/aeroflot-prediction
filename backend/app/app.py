@@ -1,5 +1,3 @@
-import uvicorn
-
 from fastapi import (
     FastAPI,
     Request,
@@ -45,7 +43,3 @@ def search_cities_by_prefix(prefix: str = Depends(parse_prefix)):
         return ErrorResponse(message="Prefix must be a string")
     cities = prefix_tree.get_cities_by_prefix(prefix=prefix)
     return SearchCitiesResponse(cities=cities)
-
-
-if __name__ == "__main__":
-    uvicorn.run("app:app", port=4567, log_level="info")
