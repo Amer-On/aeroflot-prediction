@@ -23,6 +23,9 @@ function Main(){
                 <div className='third-form'>
                     
                 </div>
+                <div className='input'>
+                    
+                </div>
             </div>
             <div className='charts'>
                 <h1>asd</h1>
