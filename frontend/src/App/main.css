@@ -35,13 +35,41 @@
     display: flex;
     justify-content: center;
 }
+
+.DM{
+    min-width: 100%;
+}
     
 .input{
     max-width: 952px;
     height: 142px;
     background-color: #fff;
+    display: flex;
+    align-items: center;
 }
-    
+
+.main-form{
+    padding-left: 23px; 
+    display: flex;   
+    width: 100%;
+}
+
+.s-form, .t-form{
+    margin-left: 10px;
+}
+
+.main-form select{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+option{
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 .charts{
     display: flex;
     max-width: 1440px;
