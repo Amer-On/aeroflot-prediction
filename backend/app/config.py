@@ -12,3 +12,4 @@ _super_user_payload = {
 	'user_id': 69
 }
 JWT_SUPERUSER_TOKEN = jwt.encode(_super_user_payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+print(JWT_SECRET)
