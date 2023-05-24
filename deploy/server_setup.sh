@@ -41,6 +41,12 @@ yes | sudo apt install redis-server
 sudo systemctl restart redis.service
 systemctl enable redis-server.service
 
+# install certbot
+yes | sudo apt install snapd
+yes | sudo snap install core
+yes | sudo snap refresh core
+yes | sudo snap install --classic certbot
+
 # run ~/.bashrc to apply aliases
 exec bash
 source ~/.bashrc
