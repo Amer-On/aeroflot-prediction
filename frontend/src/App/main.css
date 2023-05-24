@@ -1,29 +1,52 @@
+.main-conatiner{
+    background: center / cover url("../backimg.png") no-repeat ;
+}
+    
 .header{
     height: 64px;
     background: #0159A2;
     opacity: 0.9;
 }
-
-h1{
-    font-size: 4px;
-}
-
+    
 .form{
     max-width: 952px;
-    max-height: 189px;
     margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-header{
+    display: flex;
+}
+
+.form-header button{
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px;
+    cursor: pointer;
 }
 
 .first-form, .second-form, .third-form{
     height: 47px;
     width: 193px;
-    background-color: blueviolet;
+    background-color: #B9EEFF;
     display: inline-block;
+    border-bottom: 1px solid #7BD0FF;
+    border-right: 1px solid #7BD0FF;
+    display: flex;
+    justify-content: center;
 }
-
+    
+.input{
+    max-width: 952px;
+    height: 142px;
+    background-color: #fff;
+}
+    
 .charts{
-    width: 1440px;
-    height: 70vh;
-    margin: 0 auto;
+    display: flex;
+    max-width: 1440px;
+    height: 100vh;
     background-color: chocolate;
+    margin: 0 auto;
+    width: 90vw;
 }

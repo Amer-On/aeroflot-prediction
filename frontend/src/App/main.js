@@ -14,15 +14,24 @@ function Main(){
                 </div>
             </div>
             <div className='form'>
-                <div className='first-form'>
-
+                <div className='form-header'>
+                    <div className='first-form'>
+                        <button className='DM'>
+                            Динамика бронирования
+                        </button>
+                    </div>
+                    <div className='second-form'>
+                        <button className='DM'>
+                            Сезоны
+                        </button>
+                    </div>
+                    <div className='third-form'>
+                        <button className='DM'>
+                            Профиль спроса
+                        </button>
+                    </div>
                 </div>
-                <div className='second-form'>
-                    
-                </div>
-                <div className='third-form'>
-                    
-                </div>
+                <div className='input'></div>
             </div>
             <div className='charts'>
                 <h1>asd</h1>
