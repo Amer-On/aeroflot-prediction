@@ -1,8 +1,29 @@
-.container{
-    height: 100px;
-    background: #000;
+.header{
+    height: 64px;
+    background: #0159A2;
+    opacity: 0.9;
 }
 
 h1{
     font-size: 4px;
+}
+
+.form{
+    max-width: 952px;
+    max-height: 189px;
+    margin: 0 auto;
+}
+
+.first-form, .second-form, .third-form{
+    height: 47px;
+    width: 193px;
+    background-color: blueviolet;
+    display: inline-block;
+}
+
+.charts{
+    width: 1440px;
+    height: 70vh;
+    margin: 0 auto;
+    background-color: chocolate;
 }
