@@ -1,4 +1,4 @@
-from schemas.base import BaseResponse, Status
+from .base import BaseResponse, Status
 
 
 class SearchCitiesResponse(BaseResponse):
