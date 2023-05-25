@@ -3,11 +3,11 @@ from fastapi import (
 	Depends
 )
 
-from ..schemas.base import ErrorResponse, OKResponse
-from ..schemas.search_models import SearchCitiesResponse
-from ..auth import auth
-from ..algs.prefix_tree import PrefixTree
-from ..dependencies import parse_prefix
+from schemas.base import ErrorResponse, OKResponse
+from schemas.search_models import SearchCitiesResponse
+from auth import auth
+from algs.prefix_tree import PrefixTree
+from dependencies import parse_prefix
 
 
 router = APIRouter()

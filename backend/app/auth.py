@@ -1,6 +1,6 @@
 import jwt
 
-from .config import JWT_SECRET, JWT_ALGORITHM, JWT_SUPERUSER_TOKEN
+from config import JWT_SECRET, JWT_ALGORITHM, JWT_SUPERUSER_TOKEN
 from fastapi import HTTPException, Request
 
 
