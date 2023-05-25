@@ -1,20 +1,52 @@
+import datetime
+from fastapi import HTTPException, Request, Body, Header
 import jwt
 
 from .config import JWT_SECRET, JWT_ALGORITHM, JWT_SUPERUSER_TOKEN
-from fastapi import HTTPException, Request
+from . import db
 
 
-def secure(token):
-    encoded_token = jwt.encode(token, JWT_SECRET, JWT_ALGORITHM)
-    return encoded_token
+def secure(payload: dict) -> str:
+    token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
+    return token
 
 
-def auth(req: Request):
-    if "login" not in req.headers or "password" not in req.headers:
-        raise HTTPException(status_code=403, detail="Login and/or password data was not sent")
-    login_and_password = {
-        "login": req.headers.get("login"), 
-        "password": req.headers.get("password")
-    }
-    if secure(login_and_password) != JWT_SUPERUSER_TOKEN:
-        raise HTTPException(status_code=403, detail="Submitted data does not match SuperUser authorization")
+def decode_token(token: str) -> dict:
+    payload = jwt.decode(token, JWT_SECRET, JWT_ALGORITHM)
+    return payload
+
+
+def is_valid_token(token: str) -> bool:
+    if token == JWT_SUPERUSER_TOKEN:
+        return True
+
+    payload = decode_token(token)
+    if payload['exp'] < datetime.datetime.now():
+        return False
+
+    return db.user_exists(payload['user_id'])
+
+
+def auth(request: Request):
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    if _is_superuser(token):
+        return
+
+    payload = decode_token(token)
+    if payload['exp'] < datetime.datetime.now().timestamp():
+        raise HTTPException(status_code=403, detail="Token expired")
+
+    if db.user_exists(payload['user_id']):
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
+def is_superuser(request: Request):
+    if not _is_superuser(request.cookies.get("access_token")):
+        raise HTTPException(status_code=403, detail="Not superuser")
+
+
+def _is_superuser(token: str) -> bool:
+    return token == JWT_SUPERUSER_TOKEN
