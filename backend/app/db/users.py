@@ -1,4 +1,4 @@
-from schemas import UserLoginSchema
+from ..schemas import UserLoginSchema
 
 
 def get_user_id(user: UserLoginSchema) -> str | None:

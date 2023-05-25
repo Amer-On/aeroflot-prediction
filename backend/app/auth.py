@@ -1,10 +1,9 @@
 import datetime
-
+from fastapi import HTTPException, Request, Body, Header
 import jwt
 
-from config import JWT_SECRET, JWT_ALGORITHM, JWT_SUPERUSER_TOKEN
-from fastapi import HTTPException, Request, Body, Header
-import db
+from .config import JWT_SECRET, JWT_ALGORITHM, JWT_SUPERUSER_TOKEN
+from . import db
 
 
 def secure(payload: dict) -> str:
