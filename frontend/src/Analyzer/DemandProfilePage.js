@@ -1,5 +1,4 @@
 import Analyzer from "./components/Analyzer";
-import './components/main.css';
 import {useEffect} from "react";
 
 function DemandProfilePage() {
