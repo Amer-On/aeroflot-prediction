@@ -1,5 +1,5 @@
 import {MyGraphs} from './Graph';
-import './main.css';
+import './Main.css';
 import {Link} from "react-router-dom";
 
 

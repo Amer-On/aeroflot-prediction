@@ -7,6 +7,7 @@ import BookingDynamicsPage from "./Analyzer/BookingDynamicsPage";
 import DemandProfilePage from "./Analyzer/DemandProfilePage";
 import DemandPredictionPage from "./Analyzer/DemandPredictionPage";
 import SeasonDetectionPage from "./Analyzer/SeasonDetectionPage";
+import Auth from "./auth/Auth";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,6 +21,7 @@ root.render(
                     <Route path='/demand-profile' element={<DemandProfilePage/>}/>
                     <Route path='/demand-prediction' element={<DemandPredictionPage/>}/>
                     <Route path='/season-detection' element={<SeasonDetectionPage/>}/>
+                    <Route path="/login" element={<Auth/>}/>
                 </Route>
                 <Route path='*' element={<NoMatch/>}/>
             </Routes>
