@@ -6,36 +6,8 @@ import {Link} from "react-router-dom";
 function Analyzer() {
     return (
         <>
-            <div className='charts'>
-                <div className='f-graph'>
-                    <MyGraphs/>
-                </div>
-            </div>
             <div className='form'>
                 <h1 className='main-h1'>Динамика бронирования</h1>
-                <div className='form-header'>
-                    <div className='first-form'>
-                        <Link to='/booking-dynamics'>
-                            <button className='DM'>
-                                Динамика бронирования
-                            </button>
-                        </Link>
-                    </div>
-                    <div className='second-form'>
-                        <Link to='/season-detection'>
-                            <button className='DM'>
-                                Сезоны
-                            </button>
-                        </Link>
-                    </div>
-                    <div className='third-form'>
-                        <Link to='/demand-profile'>
-                            <button className='DM'>
-                                Профиль спроса
-                            </button>
-                        </Link>
-                    </div>
-                </div>
                 <div className='input'>
                     <form className='main-form'>
                         <p className='f-form'>
@@ -66,6 +38,11 @@ function Analyzer() {
                             </select>
                         </p>
                     </form>
+                </div>
+            </div>
+            <div className='charts'>
+                <div className='f-graph'>
+                    <MyGraphs/>
                 </div>
             </div>
         </>
