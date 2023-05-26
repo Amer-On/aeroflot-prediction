@@ -1,58 +1,56 @@
-import Graphs, { MyGraphs } from './components/graps/graphs';
-import './main.css';    
+import {MyGraphs} from './Graph';
+import './main.css';
+import {Link} from "react-router-dom";
 
-function Main(){
-    return(
-        <div className="main-conatiner">
-            <div className='header'>
-                <div className='nav'>
-                    <div className='logo'></div>
-                    <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-            </div>
+function Analyzer() {
+    return (
+        <>
             <div className='form'>
                 <div className='form-header'>
                     <div className='first-form'>
-                        <button className='DM'>
-                            Динамика бронирования
-                        </button>
+                        <Link to='/booking-dynamics'>
+                            <button className='DM'>
+                                Динамика бронирования
+                            </button>
+                        </Link>
                     </div>
                     <div className='second-form'>
-                        <button className='DM'>
-                            Сезоны
-                        </button>
+                        <Link to='/season-detection'>
+                            <button className='DM'>
+                                Сезоны
+                            </button>
+                        </Link>
                     </div>
                     <div className='third-form'>
-                        <button className='DM'>
-                            Профиль спроса
-                        </button>
+                        <Link to='/demand-profile'>
+                            <button className='DM'>
+                                Профиль спроса
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <div className='input'>
                     <form className='main-form'>
                         <p className='f-form'>
-                            <select >
-                                <option disable>-- Выбирите направление --</option>
+                            <select>
+                                <option disabled>-- Выберите направление --</option>
                                 <option value="Moscow - Sochi">Москва - Сочи</option>
                                 <option value="Sochi - Moscow">Сочи - Москва</option>
                             </select>
                         </p>
                         <p className='s-form'>
-                            <select >
-                                <option disable>-- Выбирите номер рейса --</option>
+                            <select>
+                                <option disabled>-- Выберите номер рейса --</option>
                                 <option value="Moscow - Sochi">Москва - Сочи</option>
                             </select>
                         </p>
                         <p>
-                            <input type="date" name="calendar" value="2017-01-01" max="2019-12-12" min="2012-05-29"></input>
+                            <input type="date" name="calendar" value="2017-01-01" max="2019-12-12"
+                                   min="2012-05-29"></input>
                         </p>
                         <p className='s-form'>
-                            <select >
-                                <option disable>-- Выбирите класс бронирования --</option>
+                            <select>
+                                <option disabled>-- Выберите класс бронирования --</option>
                                 <option value="Moscow - Sochi">A</option>
                                 <option value="Moscow - Sochi">A</option>
                                 <option value="Moscow - Sochi">A</option>
@@ -66,8 +64,8 @@ function Main(){
             <div className='charts'>
                 <MyGraphs/>
             </div>
-        </div>
+        </>
     );
 }
 
-export default Main;
+export default Analyzer;
