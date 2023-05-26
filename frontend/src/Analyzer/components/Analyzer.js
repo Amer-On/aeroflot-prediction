@@ -4,11 +4,10 @@ import {Link} from "react-router-dom";
 
 
 function Analyzer(props) {
-    let title = props.title;
     return (
         <>
             <div className='form'>
-                <h1 className='main-h1'>{{ title }}</h1>
+                <h1 className='main-h1'>{ props.title }</h1>
                 <div className='input'>
                     <form className='main-form'>
                         <p className='f-form'>
