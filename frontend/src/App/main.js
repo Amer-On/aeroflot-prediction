@@ -3,35 +3,23 @@ import './main.css';
 
 function Main(){
     return(
-        <div className="main-conatiner">
+        <div className="main-container">
             <div className='header'>
                 <div className='nav'>
-                    <div className='logo'></div>
-                    <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                    <div className='logo'>
+                        {/* <img src="components/Aeroflot_logo.png" className='logo'/> */}
+                    </div>
+                    <ul className='header-navigation'>
+                        <li><button>Домой</button></li>
+                        <li><button>Динамика бронирования</button></li>
+                        <li><button>Предсказания спроса</button></li>
+                        <li><button>Профиль спроса</button></li>
+                        <li><button>Определение сезонности</button></li>
                     </ul>
                 </div>
             </div>
             <div className='form'>
-                <div className='form-header'>
-                    <div className='first-form'>
-                        <button className='DM'>
-                            Динамика бронирования
-                        </button>
-                    </div>
-                    <div className='second-form'>
-                        <button className='DM'>
-                            Сезоны
-                        </button>
-                    </div>
-                    <div className='third-form'>
-                        <button className='DM'>
-                            Профиль спроса
-                        </button>
-                    </div>
-                </div>
+                <h1 className='main-h1'>Динамика бронирования</h1>
                 <div className='input'>
                     <form className='main-form'>
                         <p className='f-form'>
@@ -64,7 +52,9 @@ function Main(){
                 </div>
             </div>
             <div className='charts'>
-                <MyGraphs/>
+                <div className='f-graph'>
+                    <MyGraphs/>
+                </div>
             </div>
         </div>
     );
