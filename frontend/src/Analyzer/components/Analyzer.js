@@ -3,11 +3,11 @@ import './main.css';
 import {Link} from "react-router-dom";
 
 
-function Analyzer() {
+function Analyzer(props) {
     return (
         <>
             <div className='form'>
-                <h1 className='main-h1'>Динамика бронирования</h1>
+                <h1 className='main-h1'>{ props.title }</h1>
                 <div className='input'>
                     <form className='main-form'>
                         <p className='f-form'>
