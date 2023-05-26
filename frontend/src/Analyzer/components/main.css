@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
 .form{
     max-width: 952px;
     margin: 0 auto;
@@ -17,15 +19,41 @@
     cursor: pointer;
 }
 
-.first-form, .second-form, .third-form{
-    height: 47px;
-    width: 193px;
-    background-color: #B9EEFF;
+
+
+.f-form select{
+    width: 150px;
+}
+
+.s-form select{
+    width: 150px;
+}
+
+.t-form select{
+    width: 80px;
+}
+
+.d-form{
+    margin-left: 10px;
+}
+
+.date{
+    margin-top: -18px;
     display: inline-block;
-    border-bottom: 1px solid #7BD0FF;
-    border-right: 1px solid #7BD0FF;
-    display: flex;
-    justify-content: center;
+}
+
+.date:nth-child(2){
+    margin-left: 10px;
+}
+
+.date input{
+    padding: 14.5px 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.date input:focus{
+    outline: 0;
 }
 
 .DM{
@@ -51,7 +79,7 @@
 }
 
 .main-form{
-    padding-left: 23px; 
+    padding-left: 15px; 
     display: flex;   
     width: 100%;
 }
@@ -70,6 +98,27 @@
 option{
     margin-top: 4px;
     margin-bottom: 4px;
+}
+
+.predict-btn{
+    border: 0px;
+    border-radius: 10px;
+    padding: 12px 31px;
+    background-color: #5072CE;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.predict-btn:hover{
+    outline: 0.5px solid black;
+}
+
+.predict-btn p{
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .charts{

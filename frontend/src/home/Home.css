@@ -1,0 +1,21 @@
+.home-wrap{
+    max-width: 1440px;
+    width: 80vw;
+    height: 87.3vh;
+    margin: 0 auto;
+    margin-top: 20px;
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
+.home-h1{
+    padding-top: 50px;
+    text-align: center;
+}
+
+.home-wrap p{
+    margin-top: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 2;
+}
