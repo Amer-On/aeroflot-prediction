@@ -1,9 +1,12 @@
-import Main from "./App/main";
-
+import Header from "./components/Header";
+import {Outlet} from "react-router";
 
 function App() {
-  return (
-    <Main />
+    return (
+        <div className='main-container'>
+            <Header/>
+            <Outlet/>
+        </div>
     );
 }
 
