@@ -1,5 +1,5 @@
 .main-container{
-    background: center / cover url("../backimg.png") no-repeat ;
+    background: center / cover url("/static/backimg.png") no-repeat ;
     height: 100vh;
 }
     
@@ -34,7 +34,7 @@
     margin-bottom: 5px;
     height: 77px;
     width: 160px;
-    background: center / cover url("components/Aeroflot_logo.png") no-repeat;
+    background: center / cover url("/static/Aeroflot_logo.png") no-repeat;
 }
     
 .header-navigation{
