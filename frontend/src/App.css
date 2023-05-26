@@ -1,0 +1,4 @@
+.main-container{
+    background: center / cover url("/static/backimg.png") no-repeat ;
+    height: 100vh;
+}

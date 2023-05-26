@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import "./Header.css";
 
 function Header() {
     return (
@@ -33,6 +34,9 @@ function Header() {
                         </li>
                     </Link>
                 </ul>
+                <Link to='/login'>
+                    <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
+                </Link>
             </div>
         </div>
     );
