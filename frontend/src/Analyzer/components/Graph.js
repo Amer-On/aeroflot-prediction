@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -55,5 +56,5 @@ export const data = {
 };
 
 export function MyGraphs() {
-  return <Line options={options} data={data} />;
+  return <Line options={options} data={data}/>;
 }
