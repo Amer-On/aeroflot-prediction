@@ -71,10 +71,13 @@ option{
 }
 
 .charts{
-    display: flex;
     max-width: 1440px;
-    height: 100vh;
-    background-color: chocolate;
+    background-color: #fff;
     margin: 0 auto;
     width: 90vw;
 }
+
+.graphs1{
+    display: block;
+}
+

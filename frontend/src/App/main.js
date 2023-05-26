@@ -1,4 +1,5 @@
-import './main.css';
+import Graphs, { MyGraphs } from './components/graps/graphs';
+import './main.css';    
 
 function Main(){
     return(
@@ -46,20 +47,24 @@ function Main(){
                                 <option value="Moscow - Sochi">Москва - Сочи</option>
                             </select>
                         </p>
-                        <p className='t-form'>
-                            <select >
-                                <option disable>-- Выбирите направление --</option>
-                                <option value="Moscow - Sochi">Москва - Сочи</option>
-                            </select>
-                        </p>
                         <p>
-                            <input type="date" name="calendar" value="2012-06-01" max="2012-06-04" min="2012-05-29"></input>
+                            <input type="date" name="calendar" value="2017-01-01" max="2019-12-12" min="2012-05-29"></input>
+                        </p>
+                        <p className='s-form'>
+                            <select >
+                                <option disable>-- Выбирите класс бронирования --</option>
+                                <option value="Moscow - Sochi">A</option>
+                                <option value="Moscow - Sochi">A</option>
+                                <option value="Moscow - Sochi">A</option>
+                                <option value="Moscow - Sochi">A</option>
+                                <option value="Moscow - Sochi">A</option>
+                            </select>
                         </p>
                     </form>
                 </div>
             </div>
             <div className='charts'>
-                <h1>asd</h1>
+                <MyGraphs/>
             </div>
         </div>
     );
