@@ -1,11 +1,7 @@
 import Analyzer from "./components/Analyzer";
-import {useEffect} from "react";
 
 function DemandProfilePage() {
-    useEffect(() => {
-        document.title = 'Профиль спроса';
-    }, []);
-
-    return <Analyzer/>;
+    let title = 'Профиль спроса'
+    return <Analyzer title={title}/>;
 }
 export default DemandProfilePage;

@@ -1,11 +1,8 @@
 import Analyzer from "./components/Analyzer";
-import {useEffect} from "react";
+
 
 function SeasonDetectionPage() {
-    useEffect(() => {
-        document.title = 'Определение сезонности';
-    }, []);
-
-    return <Analyzer/>;
+    let title = 'Определение сезонности'
+    return <Analyzer title={title}/>;
 }
 export default SeasonDetectionPage;

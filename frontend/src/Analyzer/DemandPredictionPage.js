@@ -1,12 +1,8 @@
 import Analyzer from "./components/Analyzer";
-import {useEffect} from "react";
 
 function DemandPredictionPage() {
-    useEffect(() => {
-        document.title = 'Предсказание спроса';
-    }, []);
-
-
-    return <Analyzer/>;
+    let title = 'Предсказание спроса'
+    return <Analyzer title={title}/>;
 }
+
 export default DemandPredictionPage;
