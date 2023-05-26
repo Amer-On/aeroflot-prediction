@@ -16,7 +16,7 @@ root.render(
             <Routes>
                 <Route path="/" element={<App/>}/>
                 <Route path='/' element={<App/>}>
-                    <Route path='/booking-dynamics' element={<BookingDynamicsPage/>}/>
+                    <Route path='/booking-dynamic' element={<BookingDynamicsPage/>}/>
                     <Route path='/demand-profile' element={<DemandProfilePage/>}/>
                     <Route path='/demand-prediction' element={<DemandPredictionPage/>}/>
                     <Route path='/season-detection' element={<SeasonDetectionPage/>}/>
