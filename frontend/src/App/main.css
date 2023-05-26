@@ -1,29 +1,83 @@
+.main-conatiner{
+    background: center / cover url("../backimg.png") no-repeat ;
+}
+    
 .header{
     height: 64px;
     background: #0159A2;
     opacity: 0.9;
 }
-
-h1{
-    font-size: 4px;
-}
-
+    
 .form{
     max-width: 952px;
-    max-height: 189px;
     margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-header{
+    display: flex;
+}
+
+.form-header button{
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px;
+    cursor: pointer;
 }
 
 .first-form, .second-form, .third-form{
     height: 47px;
     width: 193px;
-    background-color: blueviolet;
+    background-color: #B9EEFF;
     display: inline-block;
+    border-bottom: 1px solid #7BD0FF;
+    border-right: 1px solid #7BD0FF;
+    display: flex;
+    justify-content: center;
+}
+
+.DM{
+    min-width: 100%;
+}
+    
+.input{
+    max-width: 952px;
+    height: 142px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.main-form{
+    padding-left: 23px; 
+    display: flex;   
+    width: 100%;
+}
+
+.s-form, .t-form{
+    margin-left: 10px;
+}
+
+.main-form select{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+option{
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .charts{
-    width: 1440px;
-    height: 70vh;
+    max-width: 1440px;
+    background-color: #fff;
     margin: 0 auto;
-    background-color: chocolate;
+    width: 90vw;
 }
+
+.graphs1{
+    display: block;
+}
+
