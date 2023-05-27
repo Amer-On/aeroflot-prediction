@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+.reg-container{
+    height: 500px;
+    width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: #000 2px 5px 15px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding-top: 46px;
+    padding-left: 110px;
+    padding-right: 110px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.reg-p1{
+    text-align: center;
+    opacity: 0.7;
+    font-weight: 900;
+    font-size: 24px;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 81px;
+}
+
+form > label{
+    font-size: 16px;
+    color: #5F5F5F;
+    letter-spacing: 1px;
+}
+
+#login{
+    padding: 10px 10px 0 0;
+    border: 0;
+    border-bottom: 2px solid gray;
+    width: 380px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#login:focus{
+    outline: 0;
+}
+
+#password{
+    margin-bottom: 20px;
+    padding: 10px 10px 0 0;
+    border: 0;
+    border-bottom: 2px solid gray;
+    width: 380px;
+    font-size: 16px;
+}
+
+#password:focus{
+    outline: 0;
+}
+
+.auth-error{
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.reg-error li{
+    color: red;
+}
+
+.reg-error p{
+    color: red;
+}
+
+.reg-btn{
+    border: 0px;
+    border-radius: 10px;
+    padding: 12px 31px;
+    background-color: #5072CE;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.reg-btn:hover{
+    outline: 0.5px solid black;
+}
+
+.reg-btn p{
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
