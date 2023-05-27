@@ -29,7 +29,7 @@ function Header(props) {
                 <ul className='header-navigation'>
                     <Link to='/home'>
                         <li>
-                            <button>Домой</button>
+                            <button className="home-btn">Домой</button>
                         </li>
                     </Link>
                     <Link to='/booking-dynamic'>

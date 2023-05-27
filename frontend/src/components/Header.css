@@ -1,5 +1,5 @@
 .header{
-    background: rgba(255, 255, 255, 0.6);
+    
 }
 
 .nav{
@@ -27,8 +27,8 @@
     margin-top: 5px;
     margin-bottom: 5px;
     height: 77px;
-    width: 160px;
-    background: center / cover url("/static/Aeroflot_logo.png") no-repeat;
+    width: 100px;
+    background: center / cover url("/static/aflogo.webp") no-repeat;
 }
     
 .header-navigation{
@@ -58,4 +58,10 @@
     opacity: 1;
     font-weight: bold;
     letter-spacing: 2px;
+}
+
+@media(max-width: 1391px){
+    .home-btn{
+        padding-top: 15px !important;
+    }
 }
