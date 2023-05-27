@@ -1,8 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import "./Header.css";
+import {useAuth} from "../auth/AuthContext";
+import axios from "axios";
 
-function Header() {
+function Header(props) {
+    const {isAuthenticated, setIsAuthenticated} = useAuth();
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        //Form submission happens here
+        // const host = 'https://penguin-code.ru/'
+        const host = window.location.hostname;
+
+        axios.get(host + "/api/auth/logout")
+            .then(
+                () => {
+                    setIsAuthenticated(false)
+                }
+            )
+    }
+
+
     return (
         <div className='header'>
             <div className='nav'>
@@ -34,9 +53,16 @@ function Header() {
                         </li>
                     </Link>
                 </ul>
-                <Link to='/login'>
-                    <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
-                </Link>
+                {props.isLoginPage ? <></> :
+                    isAuthenticated ?
+                        (<button className="auth-btn" onClick={onSubmitHandler} ><p>Выйти</p></button>)
+                        :
+                        (
+                            <Link to='/login'>
+                                <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
+                            </Link>
+                        )
+                }
             </div>
         </div>
     );

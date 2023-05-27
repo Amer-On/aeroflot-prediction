@@ -21,6 +21,8 @@ root.render(
                     <Route path='/demand-profile' element={<DemandProfilePage/>}/>
                     <Route path='/demand-prediction' element={<DemandPredictionPage/>}/>
                     <Route path='/season-detection' element={<SeasonDetectionPage/>}/>
+                </Route>
+                <Route path='/' element={<App isLoginPage={true}/>}>
                     <Route path="/login" element={<Auth/>}/>
                 </Route>
                 <Route path='*' element={<NoMatch/>}/>
