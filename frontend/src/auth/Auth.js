@@ -11,18 +11,13 @@ function Auth() {
     const [error, setError] = useState();
     const {setIsAuthenticated} = useAuth();
     const navigate = useNavigate();
-    // const host = 'https://penguin-code.ru/'
-    const host = window.location.hostname;
+    const host = '';
 
-    // var isAuthenticated = useState()
     const onSubmitHandler = (event) => {
         event.preventDefault();
         responseBody.login = login
         responseBody.password = password
 
-        //Form submission happens here
-        console.log(host)
-        console.log(window.location.host)
         axios.post(host + "/api/auth/login", responseBody, { withCredentials: true })
             .then(
                 (response) => {

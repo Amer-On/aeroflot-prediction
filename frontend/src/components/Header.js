@@ -10,8 +10,7 @@ function Header(props) {
     const onSubmitHandler = (event) => {
         event.preventDefault();
         //Form submission happens here
-        // const host = 'https://penguin-code.ru/'
-        const host = window.location.hostname;
+        const host = "";
 
         axios.get(host + "/api/auth/logout")
             .then(
