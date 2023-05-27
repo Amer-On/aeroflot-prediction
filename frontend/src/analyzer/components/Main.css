@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
 .form{
     max-width: 952px;
     margin: 0 auto;
     margin-top: 20px;
     margin-bottom: 20px;
-    box-shadow: #000 0px 5px 10px;
+    box-shadow: gray 0px 5px 10px;
     border-radius: 0 0 5px 5px;
 }
 
@@ -70,6 +71,7 @@
 }
 
 .main-h1{
+    font-family: 'Montserrat', sans-serif;
     padding-top: 20px;
     background: #fff;
     text-align: center;
@@ -123,16 +125,15 @@ option{
 
 .charts{
     max-width: 1440px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     margin: 0 auto;
     width: 90vw;
     padding-top: 10px;
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: gray 0px 5px 10px;
 }
 
 .f-graph{
     margin: 0 auto;
     width: 60vw;
-    background-color: #fff;
-    padding-bottom: 50px;
 }
