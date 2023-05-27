@@ -22,6 +22,12 @@ def ping():
 
 @router.get("/cities/search/{prefix}",
             response_model=SearchCitiesResponse | ErrorResponse, dependencies=[Depends(auth)])
-def search_cities_by_prefix(prefix: str):
+async def search_cities_by_prefix(prefix: str):
+    if not prefix:
+        return ErrorResponse(message="Prefix was not passed")
+    if len(prefix) < 2:
+        return ErrorResponse(message="Prefix is too short. The minimum prefix length is 2 characters")
+    if type(prefix) != str:
+        return ErrorResponse(message="Prefix must be a string")
     cities = prefix_tree.get_cities_by_prefix(prefix=prefix)
     return SearchCitiesResponse(cities=cities)
