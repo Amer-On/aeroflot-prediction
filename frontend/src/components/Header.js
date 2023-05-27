@@ -6,6 +6,7 @@ import axios from "axios";
 
 function Header(props) {
     const {isAuthenticated, setIsAuthenticated} = useAuth();
+
     const host = "";
 
 
@@ -19,19 +20,6 @@ function Header(props) {
                 }
             )
     }
-
-    useEffect(() => {
-            axios.get(host + '/api/auth/is_auth').then(
-                (response) => {
-                    if (response.data.status === 'ok') {
-                        setIsAuthenticated(true);
-                    }
-                }
-            ).catch(
-                () => setIsAuthenticated(false)
-            )
-        }
-    )
 
 
     return (
@@ -67,13 +55,13 @@ function Header(props) {
                 </ul>
                 {props.isLoginPage ? <></> :
                     isAuthenticated ?
-                        (<button className="auth-btn" onClick={onSubmitHandler}><p>Выйти</p></button>)
-                        :
-                        (
-                            <Link to='/login'>
-                                <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
-                            </Link>
-                        )
+                            (<button className="auth-btn" onClick={onSubmitHandler}><p>Выйти</p></button>)
+                            :
+                            (
+                                <Link to='/login'>
+                                    <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
+                                </Link>
+                            )
                 }
             </div>
         </div>
