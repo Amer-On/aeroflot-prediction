@@ -38,7 +38,7 @@ def auth(request: Request):
         if payload['exp'] < datetime.datetime.now().timestamp():
             raise HTTPException(status_code=403, detail="Token expired")
 
-        if db.user_exists(payload['user_id']):
+        if not db.user_exists(payload['user_id']):
             raise HTTPException(status_code=403, detail="Invalid token")
     except:
         raise HTTPException(status_code=403, detail="Token does not exist")
