@@ -17,43 +17,43 @@ def decode_token(token: str) -> dict:
     return payload
 
 
-def is_valid_token(token: str) -> bool:
+async def is_valid_token(token: str) -> bool:
     payload = decode_token(token)
     if payload['exp'] < datetime.datetime.now().timestamp():
         return False
 
-    return db.user_exists(payload['user_id'])
+    return await db.user_exists(payload['user_id'])
 
 
-def auth(request: Request):
+async def auth(request: Request):
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     try:
-        if _is_superuser(token):
+        if await _is_superuser(token):
             return
 
         payload = decode_token(token)
         if payload['exp'] < datetime.datetime.now().timestamp():
             raise HTTPException(status_code=403, detail="Token expired")
 
-        if not db.user_exists(payload['user_id']):
+        if not await db.user_exists(payload['user_id']):
             raise HTTPException(status_code=403, detail="Invalid token")
     except:
         raise HTTPException(status_code=403, detail="Token does not exist")
 
 
-def is_superuser(request: Request):
-    if not _is_superuser(request.cookies.get("access_token")):
+async def is_superuser(request: Request):
+    if not await _is_superuser(request.cookies.get("access_token")):
         raise HTTPException(status_code=403, detail="Not superuser")
 
 
-def _is_superuser(token: str) -> bool:
+async def _is_superuser(token: str) -> bool:
     try:
         payload = decode_token(token)
         user_id = payload['user_id']
-        userslist = db_methods.fetch_user_by_user_id_db(user_id)
+        userslist = await db_methods.fetch_user_by_user_id_db(user_id)
         if userslist:
             return userslist[0][2]
         else:
