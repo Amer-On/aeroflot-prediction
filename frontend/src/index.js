@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import NoMatch from "./components/NoMatch";
-import BookingDynamicsPage from "./Analyzer/BookingDynamicsPage";
-import DemandProfilePage from "./Analyzer/DemandProfilePage";
-import DemandPredictionPage from "./Analyzer/DemandPredictionPage";
-import SeasonDetectionPage from "./Analyzer/SeasonDetectionPage";
+import BookingDynamicsPage from "./analyzer/BookingDynamicsPage";
+import DemandProfilePage from "./analyzer/DemandProfilePage";
+import DemandPredictionPage from "./analyzer/DemandPredictionPage";
+import SeasonDetectionPage from "./analyzer/SeasonDetectionPage";
 import Auth from "./auth/Auth";
 import Home from "./home/Home";
 
@@ -21,6 +21,8 @@ root.render(
                     <Route path='/demand-profile' element={<DemandProfilePage/>}/>
                     <Route path='/demand-prediction' element={<DemandPredictionPage/>}/>
                     <Route path='/season-detection' element={<SeasonDetectionPage/>}/>
+                </Route>
+                <Route path='/' element={<App isLoginPage={true}/>}>
                     <Route path="/login" element={<Auth/>}/>
                 </Route>
                 <Route path='*' element={<NoMatch/>}/>
