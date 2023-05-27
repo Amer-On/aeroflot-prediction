@@ -1,9 +1,19 @@
 import {MyGraphs} from './Graph';
 import './Main.css';
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../auth/AuthContext";
+
 
 
 function Analyzer(props) {
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate()
+
+    if (!isAuthenticated) {
+        navigate('/login')
+    }
+
+
     return (
         <>
             <div className='form'>
