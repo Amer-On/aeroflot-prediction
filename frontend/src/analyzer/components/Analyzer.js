@@ -2,22 +2,28 @@ import {MyGraphs} from './Graph';
 import './Main.css';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../auth/AuthContext";
-
+import {useEffect} from "react";
+import {redirect} from 'react-router-dom'
 
 
 function Analyzer(props) {
-    const { isAuthenticated } = useAuth();
+    const {isAuthenticated} = useAuth();
     const navigate = useNavigate()
 
-    if (!isAuthenticated) {
-        navigate('/login')
-    }
+
+    useEffect(
+        () => {
+            if (!isAuthenticated) {
+                navigate('/login')
+            }
+        }
+    )
 
 
     return (
         <>
             <div className='form'>
-                <h1 className='main-h1'>{ props.title }</h1>
+                <h1 className='main-h1'>{props.title}</h1>
                 <div className='input'>
                     <form className='main-form'>
                         <p className='f-form'>
@@ -37,11 +43,13 @@ function Analyzer(props) {
                         <p className='d-form'>
                             <div className='date date-start'>
                                 <label for='start'>Начало</label><br/>
-                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01" required/>
+                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
+                                       required/>
                             </div>
                             <div className='date date-end'>
                                 <label for='start'>Конец</label><br/>
-                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01" required/>
+                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
+                                       required/>
                             </div>
                         </p>
                         <p className='t-form'>
