@@ -11,7 +11,7 @@ from fastapi import (
 import jwt
 import logging
 
-from ..auth import secure, is_superuser
+from ..auth import secure, is_superuser, auth, decode_token
 from ..schemas import ErrorResponse, OKResponse
 from ..schemas import UserLoginSchema
 from .. import db
@@ -22,7 +22,7 @@ router = APIRouter(
 
 
 @router.post('/login', tags=['auth'], response_model=OKResponse | ErrorResponse)
-async def login(response: Response, user: UserLoginSchema = Body()):
+def login(response: Response, user: UserLoginSchema = Body()):
     user_id = db.get_user_id(user)
     if user_id is None:
         return ErrorResponse(message="Invalid user login and/or password")
@@ -32,15 +32,33 @@ async def login(response: Response, user: UserLoginSchema = Body()):
     return OKResponse(message="Authorization completed successfully")
 
 
-@router.get('/logout', tags=['auth'], response_model=OKResponse | ErrorResponse)
-async def logout(response: Response):
+@router.delete('/logout', tags=['auth'], response_model=OKResponse | ErrorResponse)
+def logout(response: Response):
     response.delete_cookie(key='access_token')
     return OKResponse(message="Logout successful")
 
 
 @router.post('/create_user', tags=['auth'], response_model=OKResponse | ErrorResponse,
              dependencies=[Depends(is_superuser)])
-async def create_user(response: Response, user: UserLoginSchema = Body()):
-    user_id = 2
-    response.set_cookie(key="access_token", value=secure({'user_id': user_id}))
+def create_user(response: Response, user: UserLoginSchema = Body()):
+    db.create_user(user)
+    user_id = db.get_user_id(user)
+    token = secure({'user_id': user_id, 'exp': datetime.datetime.now() + datetime.timedelta(days=1)})
+    response.set_cookie(key="access_token", value=token)
+    return OKResponse(message="User created successfully")
+
+
+@router.get('/is_auth', tags=['auth'], response_model=OKResponse | ErrorResponse, dependencies=[Depends(auth)])
+def is_auth(req: Request):
     return OKResponse()
+
+
+@router.post('/resecure', tags=['auth'], response_model=OKResponse | ErrorResponse, dependencies=[Depends(auth)])
+def resecure(req: Request, response: Response):
+    access_token = req.cookies.get("access_token")
+    payload = decode_token(access_token)
+    user_id = payload.get("user_id")
+    token = secure({'user_id': user_id, 'exp': datetime.datetime.now() + datetime.timedelta(days=1)})
+    response.set_cookie(key="access_token", value=token)
+    return OKResponse(message="Token completed resecured")
+    

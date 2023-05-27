@@ -1,4 +1,9 @@
 from ..schemas import UserLoginSchema
+from . import methods as db_methods
+
+
+def create_user(user: UserLoginSchema) -> None:
+    db_methods.add_user_db(user)
 
 
 def get_user_id(user: UserLoginSchema) -> str | None:
@@ -7,16 +12,15 @@ def get_user_id(user: UserLoginSchema) -> str | None:
     :type user: object
     :return: user id if user exists else None
     """
-    userslist = [UserLoginSchema(login='root', password='pass')]
+    userslist = db_methods.fetch_user_db(user)
 
     user_id = None
-    if user in userslist:
-        user_id = userslist.index(user)
+    if userslist:
+        user_id = userslist[0][0]
     return user_id
 
 
 def user_exists(user_id: str) -> bool:
     """ USER ID UUID FROM POSTGRES
     """
-    user_ids = ['someid']
-    return user_id in user_ids
+    return bool(db_methods.fetch_user_by_user_id_db(user_id))

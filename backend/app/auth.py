@@ -2,6 +2,7 @@ import datetime
 from fastapi import HTTPException, Request, Body, Header
 import jwt
 
+from .db import methods as db_methods
 from .config import JWT_SECRET, JWT_ALGORITHM, JWT_SUPERUSER_TOKEN
 from . import db
 
@@ -17,11 +18,8 @@ def decode_token(token: str) -> dict:
 
 
 def is_valid_token(token: str) -> bool:
-    if token == JWT_SUPERUSER_TOKEN:
-        return True
-
     payload = decode_token(token)
-    if payload['exp'] < datetime.datetime.now():
+    if payload['exp'] < datetime.datetime.now().timestamp():
         return False
 
     return db.user_exists(payload['user_id'])
@@ -32,15 +30,18 @@ def auth(request: Request):
     if not token:
         raise HTTPException(status_code=403, detail="Not authorized")
 
-    if _is_superuser(token):
-        return
+    try:
+        if _is_superuser(token):
+            return
 
-    payload = decode_token(token)
-    if payload['exp'] < datetime.datetime.now().timestamp():
-        raise HTTPException(status_code=403, detail="Token expired")
+        payload = decode_token(token)
+        if payload['exp'] < datetime.datetime.now().timestamp():
+            raise HTTPException(status_code=403, detail="Token expired")
 
-    if db.user_exists(payload['user_id']):
-        raise HTTPException(status_code=403, detail="Invalid token")
+        if db.user_exists(payload['user_id']):
+            raise HTTPException(status_code=403, detail="Invalid token")
+    except:
+        raise HTTPException(status_code=403, detail="Token does not exist")
 
 
 def is_superuser(request: Request):
@@ -49,4 +50,13 @@ def is_superuser(request: Request):
 
 
 def _is_superuser(token: str) -> bool:
-    return token == JWT_SUPERUSER_TOKEN
+    try:
+        payload = decode_token(token)
+        user_id = payload['user_id']
+        userslist = db_methods.fetch_user_by_user_id_db(user_id)
+        if userslist:
+            return userslist[0][2]
+        else:
+            return False
+    except:
+        return False
