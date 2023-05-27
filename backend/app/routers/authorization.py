@@ -32,7 +32,7 @@ async def login(response: Response, user: UserLoginSchema = Body()):
     return OKResponse(message="Authorization completed successfully")
 
 
-@router.get('/logout', tags=['auth'], response_model=OKResponse | ErrorResponse)
+@router.delete('/logout', tags=['auth'], response_model=OKResponse | ErrorResponse)
 async def logout(response: Response):
     response.delete_cookie(key='access_token')
     return OKResponse(message="Logout successful")
@@ -41,6 +41,8 @@ async def logout(response: Response):
 @router.post('/create_user', tags=['auth'], response_model=OKResponse | ErrorResponse,
              dependencies=[Depends(is_superuser)])
 async def create_user(response: Response, user: UserLoginSchema = Body()):
-    user_id = 2
-    response.set_cookie(key="access_token", value=secure({'user_id': user_id}))
-    return OKResponse()
+    db.create_user(user)
+    user_id = db.get_user_id(user)
+    token = secure({'user_id': user_id, 'exp': datetime.datetime.now() + datetime.timedelta(days=1)})
+    response.set_cookie(key="access_token", value=token)
+    return OKResponse(message="User created successfully")
