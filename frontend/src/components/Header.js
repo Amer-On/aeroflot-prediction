@@ -6,19 +6,32 @@ import axios from "axios";
 
 function Header(props) {
     const {isAuthenticated, setIsAuthenticated} = useAuth();
+    const host = "";
+
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        //Form submission happens here
-        const host = "";
 
-        axios.get(host + "/api/auth/logout")
+        axios.delete(host + "/api/auth/logout")
             .then(
                 () => {
                     setIsAuthenticated(false)
                 }
             )
     }
+
+    useEffect(() => {
+            axios.get(host + '/api/auth/is_auth').then(
+                (response) => {
+                    if (response.data.status === 'ok') {
+                        setIsAuthenticated(true);
+                    }
+                }
+            ).catch(
+                () => setIsAuthenticated(false)
+            )
+        }
+    )
 
 
     return (
@@ -54,7 +67,7 @@ function Header(props) {
                 </ul>
                 {props.isLoginPage ? <></> :
                     isAuthenticated ?
-                        (<button className="auth-btn" onClick={onSubmitHandler} ><p>Выйти</p></button>)
+                        (<button className="auth-btn" onClick={onSubmitHandler}><p>Выйти</p></button>)
                         :
                         (
                             <Link to='/login'>
