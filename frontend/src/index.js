@@ -8,15 +8,15 @@ import DemandProfilePage from "./Analyzer/DemandProfilePage";
 import DemandPredictionPage from "./Analyzer/DemandPredictionPage";
 import SeasonDetectionPage from "./Analyzer/SeasonDetectionPage";
 import Auth from "./auth/Auth";
-
+import Home from "./home/Home";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App/>}/>
                 <Route path='/' element={<App/>}>
+                    <Route path="/home" element={<Home/>}/>
                     <Route path='/booking-dynamic' element={<BookingDynamicsPage/>}/>
                     <Route path='/demand-profile' element={<DemandProfilePage/>}/>
                     <Route path='/demand-prediction' element={<DemandPredictionPage/>}/>
