@@ -2,6 +2,7 @@ import datetime
 from fastapi import HTTPException, Request, Body, Header
 import jwt
 
+from .db import methods as db_methods
 from .config import JWT_SECRET, JWT_ALGORITHM, JWT_SUPERUSER_TOKEN
 from . import db
 
@@ -16,37 +17,46 @@ def decode_token(token: str) -> dict:
     return payload
 
 
-def is_valid_token(token: str) -> bool:
-    if token == JWT_SUPERUSER_TOKEN:
-        return True
-
+async def is_valid_token(token: str) -> bool:
     payload = decode_token(token)
-    if payload['exp'] < datetime.datetime.now():
+    if payload['exp'] < datetime.datetime.now().timestamp():
         return False
 
-    return db.user_exists(payload['user_id'])
+    return await db.user_exists(payload['user_id'])
 
 
-def auth(request: Request):
+async def auth(request: Request):
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(status_code=403, detail="Not authorized")
 
-    if _is_superuser(token):
-        return
+    try:
+        if await _is_superuser(token):
+            return
 
-    payload = decode_token(token)
-    if payload['exp'] < datetime.datetime.now().timestamp():
-        raise HTTPException(status_code=403, detail="Token expired")
+        payload = decode_token(token)
+        if payload['exp'] < datetime.datetime.now().timestamp():
+            raise HTTPException(status_code=403, detail="Token expired")
 
-    if db.user_exists(payload['user_id']):
-        raise HTTPException(status_code=403, detail="Invalid token")
+        if not await db.user_exists(payload['user_id']):
+            raise HTTPException(status_code=403, detail="Invalid token")
+    except:
+        raise HTTPException(status_code=403, detail="Token does not exist")
 
 
-def is_superuser(request: Request):
-    if not _is_superuser(request.cookies.get("access_token")):
+async def is_superuser(request: Request):
+    if not await _is_superuser(request.cookies.get("access_token")):
         raise HTTPException(status_code=403, detail="Not superuser")
 
 
-def _is_superuser(token: str) -> bool:
-    return token == JWT_SUPERUSER_TOKEN
+async def _is_superuser(token: str) -> bool:
+    try:
+        payload = decode_token(token)
+        user_id = payload['user_id']
+        userslist = await db_methods.fetch_user_by_user_id_db(user_id)
+        if userslist:
+            return userslist[0][2]
+        else:
+            return False
+    except:
+        return False

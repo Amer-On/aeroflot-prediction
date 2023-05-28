@@ -7,12 +7,13 @@ import axios from "axios";
 function Header(props) {
     const {isAuthenticated, setIsAuthenticated} = useAuth();
 
+    const host = "";
+
+
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        //Form submission happens here
-        const host = "";
 
-        axios.get(host + "/api/auth/logout")
+        axios.delete(host + "/api/auth/logout")
             .then(
                 () => {
                     setIsAuthenticated(false)
@@ -28,7 +29,7 @@ function Header(props) {
                 <ul className='header-navigation'>
                     <Link to='/home'>
                         <li>
-                            <button>Домой</button>
+                            <button className="home-btn">Домой</button>
                         </li>
                     </Link>
                     <Link to='/booking-dynamic'>
@@ -54,13 +55,13 @@ function Header(props) {
                 </ul>
                 {props.isLoginPage ? <></> :
                     isAuthenticated ?
-                        (<button className="auth-btn" onClick={onSubmitHandler} ><p>Выйти</p></button>)
-                        :
-                        (
-                            <Link to='/login'>
-                                <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
-                            </Link>
-                        )
+                            (<button className="auth-btn" onClick={onSubmitHandler}><p>Выйти</p></button>)
+                            :
+                            (
+                                <Link to='/login'>
+                                    <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
+                                </Link>
+                            )
                 }
             </div>
         </div>
