@@ -122,7 +122,7 @@ async def predict(report: PredictReport = Body()):
 
 
 @router.post("/ml/profile",
-            response_model=ProfileResponse | ErrorResponse)
+            response_model=ProfileResponse | ErrorResponse, dependencies=[Depends(auth)])
 async def profile(report: ProfileReport = Body()):
     '''
     Requirements in json {
