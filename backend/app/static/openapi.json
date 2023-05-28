@@ -23,17 +23,28 @@
                 }
             }
         },
-        "/back/cities/search": {
+        "/cities/search/{prefix}": {
             "get": {
                 "summary": "Search Cities By Prefix",
-                "operationId": "search_cities_by_prefix_back_cities_search_get",
+                "operationId": "search_cities_by_prefix_cities_search__prefix__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Prefix",
+                            "type": "string"
+                        },
+                        "name": "prefix",
+                        "in": "path"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response Search Cities By Prefix Back Cities Search Get",
+                                    "title": "Response Search Cities By Prefix Cities Search  Prefix  Get",
                                     "anyOf": [
                                         {
                                             "$ref": "#/components/schemas/SearchCitiesResponse"
@@ -45,6 +56,342 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login",
+                "operationId": "login_auth_login_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLoginSchema"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Login Auth Login Post",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/OKResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "delete": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout",
+                "operationId": "logout_auth_logout_delete",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Logout Auth Logout Delete",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/OKResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/create_user": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Create User",
+                "operationId": "create_user_auth_create_user_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLoginSchema"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Create User Auth Create User Post",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/OKResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/is_auth": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Is Auth",
+                "operationId": "is_auth_auth_is_auth_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Is Auth Auth Is Auth Get",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/OKResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/resecure": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Resecure",
+                "operationId": "resecure_auth_resecure_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Resecure Auth Resecure Post",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/OKResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ml/seasons": {
+            "post": {
+                "summary": "Seasons",
+                "description": "Requirements in json {\n    seg_class_code: str,\n    flt_num: int,\n}\nNot require, but can be used in json {\n    date_start: YYYY-MM-DD = -1-1,\n    date_finish: YYYY-MM-DD = -12-31,\n    period: int = 365,\n    fourier: int | None = None,\n}",
+                "operationId": "seasons_ml_seasons_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SeasonsReport"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Seasons Ml Seasons Post",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/SeasonsResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ml/dynamic": {
+            "post": {
+                "summary": "Dynamic",
+                "description": "Requirements in json {\n    seg_class_code: str,\n    flt_num: int,\n    dep_date: YYYY-MM-DD,\n}\nNot require, but can be used in json {\n    period_start: str | None = None,\n    period_end: str | None = None,\n    fourier: int | None = None,\n}",
+                "operationId": "dynamic_ml_dynamic_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DynamicReport"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Dynamic Ml Dynamic Post",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DynamicResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ml/predict": {
+            "post": {
+                "summary": "Predict",
+                "description": "Requirements in json {\n    seg_class_code: str,\n    flt_num: int,\n    dep_date: YYYY-MM-DD,\n}\nNot require, but can be used in json {\n    dtd_start: int = -1,\n    dtd_end: int = 30,\n}",
+                "operationId": "predict_ml_predict_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PredictReport"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Predict Ml Predict Post",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DynamicResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -52,6 +399,72 @@
     },
     "components": {
         "schemas": {
+            "DynamicReport": {
+                "title": "DynamicReport",
+                "required": [
+                    "seg_class_code",
+                    "flt_num",
+                    "dep_date"
+                ],
+                "type": "object",
+                "properties": {
+                    "seg_class_code": {
+                        "title": "Seg Class Code",
+                        "type": "string"
+                    },
+                    "flt_num": {
+                        "title": "Flt Num",
+                        "type": "integer"
+                    },
+                    "dep_date": {
+                        "title": "Dep Date",
+                        "type": "string"
+                    },
+                    "period_start": {
+                        "title": "Period Start",
+                        "type": "string"
+                    },
+                    "period_end": {
+                        "title": "Period End",
+                        "type": "string"
+                    },
+                    "fourier": {
+                        "title": "Fourier",
+                        "type": "integer"
+                    }
+                }
+            },
+            "DynamicResponse": {
+                "title": "DynamicResponse",
+                "required": [
+                    "flight_dynamic"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "ok"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "flight_dynamic": {
+                        "title": "Flight Dynamic",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "fourier_dynamic": {
+                        "title": "Fourier Dynamic",
+                        "type": "array",
+                        "items": {}
+                    }
+                }
+            },
             "ErrorResponse": {
                 "title": "ErrorResponse",
                 "type": "object",
@@ -70,6 +483,19 @@
                     }
                 }
             },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
             "OKResponse": {
                 "title": "OKResponse",
                 "type": "object",
@@ -85,6 +511,39 @@
                     "message": {
                         "title": "Message",
                         "type": "string"
+                    }
+                }
+            },
+            "PredictReport": {
+                "title": "PredictReport",
+                "required": [
+                    "seg_class_code",
+                    "flt_num",
+                    "dep_date"
+                ],
+                "type": "object",
+                "properties": {
+                    "seg_class_code": {
+                        "title": "Seg Class Code",
+                        "type": "string"
+                    },
+                    "flt_num": {
+                        "title": "Flt Num",
+                        "type": "integer"
+                    },
+                    "dep_date": {
+                        "title": "Dep Date",
+                        "type": "string"
+                    },
+                    "dtd_start": {
+                        "title": "Dtd Start",
+                        "type": "integer",
+                        "default": -1
+                    },
+                    "dtd_end": {
+                        "title": "Dtd End",
+                        "type": "integer",
+                        "default": 30
                     }
                 }
             },
@@ -116,6 +575,74 @@
                     }
                 }
             },
+            "SeasonsReport": {
+                "title": "SeasonsReport",
+                "required": [
+                    "seg_class_code",
+                    "flt_num"
+                ],
+                "type": "object",
+                "properties": {
+                    "seg_class_code": {
+                        "title": "Seg Class Code",
+                        "type": "string"
+                    },
+                    "flt_num": {
+                        "title": "Flt Num",
+                        "type": "integer"
+                    },
+                    "date_start": {
+                        "title": "Date Start",
+                        "type": "string",
+                        "default": "2018-01-01"
+                    },
+                    "date_finish": {
+                        "title": "Date Finish",
+                        "type": "string",
+                        "default": "2018-12-31"
+                    },
+                    "period": {
+                        "title": "Period",
+                        "type": "integer",
+                        "default": 365
+                    },
+                    "fourier": {
+                        "title": "Fourier",
+                        "type": "integer"
+                    }
+                }
+            },
+            "SeasonsResponse": {
+                "title": "SeasonsResponse",
+                "required": [
+                    "seasons"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "ok"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "seasons": {
+                        "title": "Seasons",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "fourier_seasons": {
+                        "title": "Fourier Seasons",
+                        "type": "array",
+                        "items": {}
+                    }
+                }
+            },
             "Status": {
                 "title": "Status",
                 "enum": [
@@ -124,6 +651,61 @@
                     "in_progress"
                 ],
                 "description": "An enumeration."
+            },
+            "UserLoginSchema": {
+                "title": "UserLoginSchema",
+                "required": [
+                    "login",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "login": {
+                        "title": "Login",
+                        "type": "string"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "login": "sometextlogin",
+                    "password": "weakpassword"
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
             }
         }
     }
