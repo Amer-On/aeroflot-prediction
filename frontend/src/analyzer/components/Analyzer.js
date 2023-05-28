@@ -9,7 +9,7 @@ import flight from './flight.json'
 function Analyzer(props) {
     const {isAuthenticated} = useAuth();
     const navigate = useNavigate()
-    const [flights, setFlights] = useState()
+    const [flights, setFlights] = useState(flight["SVO-AER"])
 
     let classNameForm = 'main-form';
     let classNameForm_btn = 'predict-btn';
