@@ -10,6 +10,12 @@ function Analyzer(props) {
     const {isAuthenticated} = useAuth();
     const navigate = useNavigate()
 
+    let classNameForm = 'main-form';
+    let classNameForm_btn = 'predict-btn';
+    if (props.title == 'Определение сезонности'){
+        classNameForm = 'main-form1';
+        classNameForm_btn = 'predict-btn1';
+    }
 
     useEffect(
         () => {
@@ -25,8 +31,8 @@ function Analyzer(props) {
             <div className='form'>
                 <h1 className='main-h1'>{props.title}</h1>
                 <div className='input'>
-                    <form className='main-form'>
-                        <p className='f-form'>
+                    <form className={classNameForm}>
+                        <div className='f-form'>
                             <select>
                                 <option disabled>-- Выберите направление --</option>
                                 <option value="Moscow - Sochi">Москва - Сочи</option>
@@ -34,25 +40,25 @@ function Analyzer(props) {
                                 <option value="Sochi - Moscow">Москва - Астрахань</option>
                                 <option value="Sochi - Moscow">Астрахань - Москва</option>
                             </select>
-                        </p>
-                        <p className='s-form'>
+                        </div>
+                        <div className='s-form'>
                             <select>
                                 <option disabled>-- Выберите номер рейса --</option>
                             </select>
-                        </p>
-                        <p className='d-form'>
+                        </div>
+                        <div className='d-form'>
                             <div className='date date-start'>
                                 <label for='start'>Начало</label><br/>
                                 <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
                                        required/>
                             </div>
                             <div className='date date-end'>
-                                <label for='start'>Конец</label><br/>
+                                <label for='end'>Конец</label><br/>
                                 <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
                                        required/>
                             </div>
-                        </p>
-                        <p className='t-form'>
+                        </div>
+                        <div className='t-form'>
                             <select>
                                 <option disabled>-- Выберите класс бронирования --</option>
                                 <option value="Z">Z</option>
@@ -78,9 +84,16 @@ function Analyzer(props) {
                                 <option value="C">C</option>
                                 <option value="B">B</option>
                             </select>
-                        </p>
-                        <button className='predict-btn'><p>сгенерировать</p></button>
+                        </div>
+                        {props.title == 'Определение сезонности' &&
+                            <div className='four-form'>
+                                <label>1 - 365</label><br/>
+                                <input type='text' />
+                            </div>
+                        }
+                        <button className={classNameForm_btn}><p>сгенерировать</p></button>
                     </form>
+                    
                 </div>
             </div>
             <div className='charts'>

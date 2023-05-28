@@ -35,7 +35,7 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'НАМ ЖОПА?', 'Определенно'];
 
 export const data = {
   labels,
