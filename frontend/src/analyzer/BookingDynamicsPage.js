@@ -36,7 +36,7 @@ function BookingDynamicsPage() {
         responseBody.dep_date = inputDepartureDate.current.value;
 
         if (inputDateStart.current.value) {
-            responseBody.date_start = inputDateStart.current.value;
+            responseBody.period_start = inputDateStart.current.value;
         }
         if (inputDateEnd.current.value) {
             responseBody.date_end = inputDateEnd.current.value;
@@ -45,8 +45,14 @@ function BookingDynamicsPage() {
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
-                // process response
                 console.log(response)
+                const d = response.data
+                setX(d['indexes'])
+                const arrY = []
+                arrY.push(d['flight_dynamic'])
+                arrY.push(d['fourier_dynamic'])
+                setY(arrY)
+                // process response
                 // setX(response.data.flight_dynamic)
                 // setY(response.data.)
             }
@@ -126,7 +132,7 @@ function BookingDynamicsPage() {
                     </form>
                 </div>
             </div>
-            <Chart data={data} title={title}/>
+            <Chart x={x} y={y} keys={["Сглаженная динамика", 'Динамика']} title={title}/>
         </>
     );
 }

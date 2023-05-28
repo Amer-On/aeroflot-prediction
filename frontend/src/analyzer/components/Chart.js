@@ -12,7 +12,7 @@ function Chart(props) {
                 {!props.x ?
                     (<div className='lds-hourglass'>{props.x}{props.y}</div>)
                     :
-                    <Graph y={props.y} x={props.x}/>
+                    <Graph y={props.y} x={props.x} keys={props.keys}/>
                 }
             </div>
         </div>

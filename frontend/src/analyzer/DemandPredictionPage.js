@@ -127,7 +127,7 @@ function DemandPredictionPage() {
                     </form>
                 </div>
             </div>
-            <Chart x={x} y={y}/>
+            <Chart x={x} y={y} keys={['first', 'second']}/>
         </>);
 }
 
