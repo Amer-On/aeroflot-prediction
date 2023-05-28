@@ -113,11 +113,10 @@ async def fetch_ml_data_for_dynamic_db(
     flt_num: int, 
     date: datetime,
 ):
-    formatted_date = f"{date.year}-{date.month}-{date.day}"
     return await conn.fetch(
             '''SELECT dat_s, pass_bk, dtd FROM "data_for_ml" 
-            WHERE seg_class_code = $1 AND flt_num = $2 AND dat_s = $3''',
-            seg_class_code, flt_num, formatted_date
+            WHERE seg_class_code = $1 AND flt_num = $2 AND dep_day = $3 AND dep_month = $4 AND dep_year = $5''',
+            seg_class_code, flt_num, date.day, date.month, date.year
     )
 
 
