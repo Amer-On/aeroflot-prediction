@@ -37,8 +37,7 @@ class DynamicResponse(BaseResponse):
 
 class SeasonsResponse(BaseResponse):
     status: Status = Status.OK
-    seasons: list
-    fourier_seasons: list | None = None
+    data: dict
 
 
 class PredictResponse(BaseResponse):

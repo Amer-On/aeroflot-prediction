@@ -26,7 +26,7 @@ from ..auth import auth
 router = APIRouter()
 
 @router.post("/ml/seasons",
-            response_model=SeasonsResponse | ErrorResponse, dependencies=[Depends(auth)])
+            response_model=SeasonsResponse | ErrorResponse)
 async def seasons(report: SeasonsReport = Body()):
     '''
     Requirements in json {
@@ -36,8 +36,6 @@ async def seasons(report: SeasonsReport = Body()):
     Not require, but can be used in json {
         date_start: YYYY-MM-DD = -1-1,
         date_finish: YYYY-MM-DD = -12-31,
-        period: int = 365,
-        fourier: int | None = None,
     }
     '''
     _, month, day = map(int, report.date_start.split("-"))
@@ -52,16 +50,14 @@ async def seasons(report: SeasonsReport = Body()):
         month=month
     )
     
-    seasons, fourier_seasons = await report_seasons(
+    seasons = await report_seasons(
         seg_class_code=report.seg_class_code,
         flt_num=int(report.flt_num),
         date_start=date_start,
         date_finish=date_finish,
-        period=int(report.period),
-        fourier=int(report.fourier) if report.fourier else None,
     )
 
-    return SeasonsResponse(seasons=list(seasons), fourier_seasons=list(fourier_seasons) if fourier_seasons is not None else None)
+    return SeasonsResponse(data=seasons)
 
 
 @router.post("/ml/dynamic",
