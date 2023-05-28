@@ -1,5 +1,6 @@
 import psycopg2
 import asyncpg
+from datetime import datetime
 from .config_db import *
 from .ml_schemas import *
 
@@ -106,3 +107,17 @@ async def fetch_ml_data_for_seasons_db(
             date_start.day, date_finish.day
         )
 
+
+@connect_to_db
+async def fetch_ml_data_for_dynamic_db(
+    conn: asyncpg.Connection, 
+    seg_class_code: str, 
+    flt_num: int, 
+    date: datetime,
+):
+    formatted_date = f"{date.year}-{date.month}-{date.day}"
+    return await conn.fetch(
+            '''SELECT dat_s, pass_bk, dtd FROM "data_for_ml" 
+            WHERE seg_class_code = $1 AND flt_num = $2 AND dat_s = $3''',
+            seg_class_code, flt_num, formatted_date
+        )
