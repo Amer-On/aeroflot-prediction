@@ -8,6 +8,7 @@ import DemandProfilePage from "./analyzer/DemandProfilePage";
 import DemandPredictionPage from "./analyzer/DemandPredictionPage";
 import SeasonDetectionPage from "./analyzer/SeasonDetectionPage";
 import Auth from "./auth/Auth";
+import Register from "./auth/Register";
 import Home from "./home/Home";
 import {AuthProvider} from "./auth/AuthContext";
 
@@ -31,6 +32,7 @@ root.render(
 
                     <Route path='/' element={<App isLoginPage={true}/>}>
                         <Route path="/login" element={<Auth/>}/>
+                        <Route path="/registration" element={<Register/>}/>
                     </Route>
                     <Route path='*' element={<NoMatch/>}/>
                 </Routes>

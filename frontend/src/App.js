@@ -10,7 +10,7 @@ import axios from "axios";
 function App(props) {
     const {isAuthenticated, setIsAuthenticated} = useAuth();
     const navigate = useNavigate()
-    const host='';
+    const host = '';
 
     useEffect(() => {
             axios.get(host + '/api/auth/is_auth').then(
