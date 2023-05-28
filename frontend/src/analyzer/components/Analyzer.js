@@ -10,13 +10,13 @@ import {useRef} from "react";
 import axios from 'axios';
 
 
-
 function Analyzer(props) {
     const {isAuthenticated} = useAuth();
-    const navigate = useNavigate()
-    const [flights, setFlights] = useState(flight["SVO-AER"])
+    const navigate = useNavigate();
+    const [flights, setFlights] = useState(flight["SVO-AER"]);
+    const [data, setData] = useState(undefined);
 
-    const inputRoute = useRef(null)
+    const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
     const inputDateStart = useRef(null);
     const inputDateEnd = useRef(null);
@@ -63,8 +63,6 @@ function Analyzer(props) {
                 console.log(response)
             }
         ).catch(e => console.log(e))
-
-
     }
 
 
@@ -145,8 +143,12 @@ function Analyzer(props) {
             </div>
             <div className='charts'>
                 <div className='f-graph'>
-                    <div className='lds-hourglass'> </div>
-                    {/* <MyGraphs/> */}
+                    {!data ?
+                        (<div className='lds-hourglass'></div>)
+                        :
+                        <MyGraphs data={data}/>
+                    }
+
                 </div>
             </div>
         </>
