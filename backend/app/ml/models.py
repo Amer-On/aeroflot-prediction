@@ -2,8 +2,12 @@ from datetime import datetime
 
 from ..db import methods as db_methods
 from ..db.ml_schemas import DateNoYear
-from . import analytics
-from .formatter_pandas import report_for_seasons, report_for_dynamic
+from . import analytics, prediction
+from .formatter_pandas import (
+    report_for_seasons, 
+    report_for_dynamic,
+    report_for_predict,
+)
 
 
 async def report_seasons(
@@ -56,3 +60,29 @@ async def report_dynamic(
         fourier=fourier
         )
     return flight_dynamic, fourier_dynamic
+
+
+async def report_predict(
+    seg_class_code: str, 
+    flt_num: int, 
+    date: datetime,
+    dtd_start: int = -1,
+    dtd_end: int = 30
+):
+    fetch_results = await db_methods.fetch_ml_data_for_predict_db(
+        flt_num=flt_num,
+        date=date
+    )
+    print("Fetch finish")
+    report_data = report_for_predict(fetch_results)
+    print("Formatted finish")
+    data = prediction.predict(
+        flight=report_data,
+        class_code=seg_class_code,
+        dep_day=date.day,
+        dep_month=date.month,
+        dep_year=date.year,
+        dtd_start=dtd_start,
+        dtd_end=dtd_end,
+    )
+    return data

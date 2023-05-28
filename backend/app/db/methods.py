@@ -105,7 +105,7 @@ async def fetch_ml_data_for_seasons_db(
             seg_class_code, flt_num, 
             date_start.month, date_finish.month,
             date_start.day, date_finish.day
-        )
+    )
 
 
 @connect_to_db
@@ -120,4 +120,18 @@ async def fetch_ml_data_for_dynamic_db(
             '''SELECT dat_s, pass_bk, dtd FROM "data_for_ml" 
             WHERE seg_class_code = $1 AND flt_num = $2 AND dat_s = $3''',
             seg_class_code, flt_num, formatted_date
+    )
+
+
+@connect_to_db
+async def fetch_ml_data_for_predict_db(
+    conn: asyncpg.Connection, 
+    flt_num: int, 
+    date: datetime,
+):
+    formatted_date = f"{date.year}-{date.month}-{date.day}"
+    return await conn.fetch(
+            '''SELECT * FROM "data_for_ml" 
+            WHERE flt_num = $1 AND dat_s = $2''',
+            flt_num, formatted_date
         )
