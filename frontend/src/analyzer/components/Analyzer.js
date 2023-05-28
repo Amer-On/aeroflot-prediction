@@ -5,15 +5,25 @@ import {useAuth} from "../../auth/AuthContext";
 import {useEffect, useState} from "react";
 import {redirect} from 'react-router-dom'
 import flight from './flight.json'
+import {useRef} from "react";
+
 
 function Analyzer(props) {
     const {isAuthenticated} = useAuth();
     const navigate = useNavigate()
     const [flights, setFlights] = useState(flight["SVO-AER"])
 
+    const inputRoute = useRef(null)
+    const inputFltNum = useRef(null);
+    const inputDateStart = useRef(null);
+    const inputDateEnd = useRef(null);
+    const inputSegClasCode = useRef(null);
+    const inputPeriod = useRef(null);
+
+
     let classNameForm = 'main-form';
     let classNameForm_btn = 'predict-btn';
-    if (props.title == 'Определение сезонности'){
+    if (props.title == 'Определение сезонности') {
         classNameForm = 'main-form1';
         classNameForm_btn = 'predict-btn1';
     }
@@ -30,15 +40,39 @@ function Analyzer(props) {
         setFlights(flight[e.target.value])
     }
 
+    const responseBody = {
+        'seg_class_code': '', 'flt_num': 0, 'date_start': undefined,
+        "date_end": undefined, 'period': 365
+    }
+
+    const host = '';
+
+    function submitFormHandler(event) {
+        event.preventDefault();
+        responseBody.seg_class_code = inputSegClasCode.current.value;
+        responseBody.flt_num = inputFltNum.current.value;
+        responseBody.date_start = inputDateStart.current.value;
+        responseBody.date_end = inputDateEnd.current.value;
+
+        axios.post(host + props.route, responseBody, {withCredentials: true}).then(
+            response => {
+                // process response
+                console.log(response)
+            }
+        ).catch(e => console.log(e))
+
+
+    }
+
 
     return (
         <>
             <div className='form'>
                 <h1 className='main-h1'>{props.title}</h1>
                 <div className='input'>
-                    <form className={classNameForm}>
+                    <form className={classNameForm} onSubmit={submitFormHandler}>
                         <div className='f-form'>
-                            <select onChange={handlerRouteChange}>
+                            <select onChange={handlerRouteChange} ref={inputRoute}>
                                 <option disabled>-- Выберите направление --</option>
                                 <option value="SVO-AER">Москва - Сочи</option>
                                 <option value="AER-SVO">Сочи - Москва</option>
@@ -47,29 +81,29 @@ function Analyzer(props) {
                             </select>
                         </div>
                         <div className='s-form'>
-                            <select>
+                            <select ref={inputFltNum}>
                                 <option disabled>-- Выберите номер рейса --</option>
                                 {flights ? flights.map(
                                     (flt) => (
                                         <option value={flt}>{flt}</option>
                                     )
-                                ) : "erro"}
+                                ) : ""}
                             </select>
                         </div>
                         <div className='d-form'>
                             <div className='date date-start'>
                                 <label htmlFor='start'>Начало</label><br/>
                                 <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
-                                       required/>
+                                       required ref={inputDateStart}/>
                             </div>
                             <div className='date date-end'>
                                 <label htmlFor='end'>Конец</label><br/>
                                 <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
-                                       required/>
+                                       required ref={inputDateEnd}/>
                             </div>
                         </div>
                         <div className='t-form'>
-                            <select>
+                            <select ref={inputSegClasCode}>
                                 <option disabled>-- Выберите класс бронирования --</option>
                                 <option value="Z">Z</option>
                                 <option value="Y">Y</option>
@@ -98,12 +132,12 @@ function Analyzer(props) {
                         {props.title == 'Определение сезонности' &&
                             <div className='four-form'>
                                 <label>1 - 365</label><br/>
-                                <input type='text' />
+                                <input type='text' min={1} max={365}/>
                             </div>
                         }
-                        <button className={classNameForm_btn}><p>сгенерировать</p></button>
+                        <button className={classNameForm_btn} type='submit'><p>сгенерировать</p></button>
                     </form>
-                    
+
                 </div>
             </div>
             <div className='charts'>
