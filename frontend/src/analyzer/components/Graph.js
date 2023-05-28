@@ -28,33 +28,26 @@ export const options = {
     legend: {
       position: 'top',
     },
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart',
-    },
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'НАМ ЖОПА?', 'Определенно'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [10, 30, 12, 12, 324, 234, 2],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: [2, 0, 12, 12, 33, 50, 2],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+export function Graph(props) {
+  const labels = props.x;
 
-export function Graph() {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: props.y[0],
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      }
+    ],
+  };
+  console.log(labels)
+  console.log(props.y)
+
   return <Line options={options} data={data}/>;
 }

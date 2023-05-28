@@ -16,6 +16,8 @@ function BookingDynamicsPage() {
     const inputDepartureDate = useRef(null);
     const inputDateStart = useRef(null);
     const inputDateEnd = useRef(null);
+    const [x, setX] = useState(undefined);
+    const [y, setY] = useState(undefined);
 
     function handleRouteChange(e) {
         setFlights(flight[e.target.value])
@@ -45,6 +47,8 @@ function BookingDynamicsPage() {
             response => {
                 // process response
                 console.log(response)
+                // setX(response.data.flight_dynamic)
+                // setY(response.data.)
             }
         ).catch(e => console.log(e))
     }

@@ -1,16 +1,18 @@
 import './Main.css';
 import './Loader.css';
 import {Graph} from "./Graph";
+import {useEffect} from "react";
 
 
 function Chart(props) {
+    // console.log(props.x)
     return (
         <div className='charts'>
             <div className='f-graph'>
-                {!props.data ?
-                    (<div className='lds-hourglass'></div>)
+                {!props.x ?
+                    (<div className='lds-hourglass'>{props.x}{props.y}</div>)
                     :
-                    <Graph data={props.data}/>
+                    <Graph y={props.y} x={props.x}/>
                 }
             </div>
         </div>

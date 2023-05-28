@@ -8,6 +8,8 @@ function DemandPredictionPage() {
     let title = 'Предсказание спроса'
     const [flights, setFlights] = useState(flight["SVO-AER"]);
     const [data, setData] = useState(undefined);
+    const [x, setX] = useState(undefined);
+    const [y, setY] = useState(undefined);
 
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
@@ -41,11 +43,14 @@ function DemandPredictionPage() {
             responseBody.dtd_end = inputDtdEnd.current.value
         }
 
-        console.log(responseBody)
-
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
+                let newArr = []
+                newArr.push(response.data.values)
                 // process response
+                setX(response.data.date)
+                setY(newArr)
+
                 console.log(response)
             }
         ).catch(e => console.log(e))
@@ -106,7 +111,7 @@ function DemandPredictionPage() {
                         <div className='d-form'>
                             <div className='date date-start'>
                                 <label htmlFor='start'>Дата вылета</label><br/>
-                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
+                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2022-01-01"
                                        required ref={inputDepartureDate}/>
                             </div>
                         </div>
@@ -122,7 +127,7 @@ function DemandPredictionPage() {
                     </form>
                 </div>
             </div>
-            <Chart data={data} title={title}/>
+            <Chart x={x} y={y}/>
         </>);
 }
 
