@@ -94,11 +94,9 @@ async def fetch_ml_data_for_seasons_db(
     flt_num: int, 
     date_start: DateNoYear = DateNoYear(day=1, month=1),
     date_finish: DateNoYear = DateNoYear(day=31, month=12),
-    period: int = 365,
-    fourier: int | None = None,
 ):
     return await conn.fetch(
-            '''SELECT dat_s, pass_bk FROM "data_for_ml" 
+            '''SELECT dtd, pass_bk FROM "data_for_ml" 
             WHERE seg_class_code = $1 AND flt_num = $2 AND 
             EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $3 AND $4 AND
             EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $5 AND $6''',

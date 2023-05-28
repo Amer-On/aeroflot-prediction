@@ -5,46 +5,25 @@ import statsmodels.tsa
 from scipy.fft import rfft, irfft
 from typing import Tuple
 
-def get_seasons(df: pd.DataFrame, period: int = 365, fourier: int | None = None) \
-        -> Tuple[statsmodels.tsa.seasonal.DecomposeResult, np.ndarray | None]:
-    """
-    Make seasonal decompose
+def get_seasons(df : pd.DataFrame):
+    flight = df.groupby('DTD')['PASS_BK'].sum()
+    std_dev = flight.std()
+    large_changes = (flight - flight.shift()).abs() > 0.15* std_dev
+    result = dict()
+    result['large_changes'] = flight[large_changes]
+    x = flight.index.to_numpy()
+    y = flight.values
 
-    :param pd.DataFrame df: origin DataFrame
-    :param str class_code: single symbol code representing Seg Class Code
-    :param flt_num: flight number(code)
-    :param int, default 1 day_start: day start of flights
-    :param int, default 31 day_end: day end of flights
-    :param int, default 1 month_start: month start of flights
-    :param int, default 12 month_end: month end of flights
-    :param int, default 365 period: period to make seasonal decompose, by default decompose by each year
-    :param int | None, default None fourier: optional parameter, make fourier decompose to prettify the final graph
-    :return: result of seasonal decompose and result prettified by fourier
-    """
+    x_changes = flight[large_changes].index.to_numpy()
 
-    # Grouping by check date
-    flight = df.groupby('DAT_S')['PASS_BK'].sum()
-    # Get seasons by period
-    seasons = seasonal_decompose(flight, model='additive', period=period).seasonal
-
-    # Get fourier smoothing if needed
-    if fourier:
-        # Fast fourier transform
-        fourier_seasons = rfft(seasons[:period].values)
-        # Drop noise signals
-        fourier_seasons[fourier:] = 0
-
-        # Inverse fourier transform
-        fourier_seasons = irfft(fourier_seasons)
-
-        if fourier_seasons.size != seasons.size:
-            fourier_seasons = np.append(fourier_seasons, seasons[period])
-
-        # Return seasons and fourier smoothing
-        return seasons[:period], fourier_seasons
-
-    # Return seasons
-    return seasons[:period], None
+    for i in range(1, len(x_changes)-1): 
+        x_changes_copy = np.delete(x_changes, i)
+        mask = np.isin(x, x_changes_copy)
+        X_subset = x[mask]
+        y_subset = y[mask]
+        approx = np.polyfit(X_subset, y_subset, 4)
+        result[x_changes[i]] = pd.Series(np.polyval(approx,X_subset), index = X_subset)
+    return result
 
 
 def get_dynamic(flight_dynamic: pd.DataFrame, period_start: str | None = None, period_end: str | None = None, fourier: int | None = None) \
@@ -91,3 +70,45 @@ def get_dynamic(flight_dynamic: pd.DataFrame, period_start: str | None = None, p
 
     # Return dynamic
     return flight_dynamic, None
+
+
+def demand_profile(df: pd.DataFrame, period: int = 365, fourier: int | None = None) \
+        -> Tuple[statsmodels.tsa.seasonal.DecomposeResult, np.ndarray | None]:
+    """
+    Make seasonal decompose
+
+    :param pd.DataFrame df: origin DataFrame
+    :param str class_code: single symbol code representing Seg Class Code
+    :param flt_num: flight number(code)
+    :param int, default 1 day_start: day start of flights
+    :param int, default 31 day_end: day end of flights
+    :param int, default 1 month_start: month start of flights
+    :param int, default 12 month_end: month end of flights
+    :param int, default 365 period: period to make seasonal decompose, by default decompose by each year
+    :param int | None, default None fourier: optional parameter, make fourier decompose to prettify the final graph
+    :return: result of seasonal decompose and result prettified by fourier
+    """
+
+    # Grouping by check date
+    flight = df.groupby('DAT_S')['PASS_BK'].sum()
+    # Get seasons by period
+    seasons = seasonal_decompose(flight, model='additive', period=period).seasonal
+
+    # Get fourier smoothing if needed
+    if fourier:
+        # Fast fourier transform
+        fourier_seasons = rfft(seasons[:period].values)
+        # Drop noise signals
+        fourier_seasons[fourier:] = 0
+
+        # Inverse fourier transform
+        fourier_seasons = irfft(fourier_seasons)
+
+        if fourier_seasons.size != seasons.size:
+            fourier_seasons = np.append(fourier_seasons, seasons[period])
+
+        # Return seasons and fourier smoothing
+        return seasons[:period], fourier_seasons
+
+    # Return seasons
+    return seasons[:period], None
