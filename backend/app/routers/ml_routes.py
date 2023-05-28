@@ -90,7 +90,7 @@ async def dynamic(report: DynamicReport = Body()):
 
 
 @router.post("/ml/predict",
-            response_model=DynamicResponse | ErrorResponse, dependencies=[Depends(auth)])
+            response_model=PredictResponse | ErrorResponse, dependencies=[Depends(auth)])
 async def predict(report: PredictReport = Body()):
     '''
     Requirements in json {
@@ -105,13 +105,14 @@ async def predict(report: PredictReport = Body()):
     '''
     year, month, day = map(int, report.dep_date.split("-"))
     date = datetime(day=day, month=month, year=year)
-    
-    data = report_predict(
-        seg_class_code=report.seg_class_code,
-        flt_num=int(report.flt_num),
-        date=date,
-        dtd_start=int(report.dtd_start),
-        dtd_end=int(report.dtd_end)
-    )
-
-    return DynamicResponse(**data)
+    try:
+        data = await report_predict(
+            seg_class_code=report.seg_class_code,
+            flt_num=int(report.flt_num),
+            date=date,
+            dtd_start=int(report.dtd_start),
+            dtd_end=int(report.dtd_end)
+        )
+    except:
+        return ErrorResponse(message="Prediction error")
+    return PredictResponse(**data)

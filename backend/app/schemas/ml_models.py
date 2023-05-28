@@ -42,5 +42,5 @@ class SeasonsResponse(BaseResponse):
 
 class PredictResponse(BaseResponse):
     status: Status = Status.OK
-    date: list
-    values: list
+    date: list[str]
+    values: list[int]

@@ -82,17 +82,18 @@ def predict(flight: pd.DataFrame, class_code: str, dep_day: int, dep_month: int,
     :param int, optional dtd_end:
     :return:
     """
+
     dtd = list(range(dtd_start, dtd_end + 1))
     flight = pd.concat([flight] * len(dtd))
     flight['DTD'] = dtd
     flight = flight[
         ['FLT_NUM', 'SEG_ORIG', 'SEG_DEST', 'DTD', 'hour_dep', 'hour_arr', 'minute_dep', 'minute_arr', 'DEP_DAY',
          'DEP_MONTH', 'DEP_YEAR']].sort_values('DTD').reset_index(drop=True)
-    model = CatBoostRegressor().load_model(f'models/{class_code}_CLASS')
+    model = CatBoostRegressor().load_model(f'app/ml/models/{class_code}_CLASS')
 
     flight['PASS_BK'] = model.predict(flight).round().astype(int)
     # TODO: OPTIMIZE
     start = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_end)
     end = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_start)
     flight['DAT_S'] = pd.date_range(start=start, end=end)[::-1]
-    return {'date': flight['DAT_S'].values, 'values': flight['PASS_BK'].values}
+    return {'date': list(str(el)[:10] for el in flight['DAT_S'].values), 'values': [int(el) for el in flight['PASS_BK'].values]}
