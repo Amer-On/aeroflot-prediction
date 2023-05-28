@@ -68,8 +68,7 @@ def fit_model(df: pd.DataFrame, filepath: Path = MODELS_DEFAULT_PATH,
             logging.info(f'[ML] Model for Seg Class Code {code} finished training and was saved to {model_file}')
 
 
-def predict(df: pd.DataFrame, flt_num: int, class_code: str, dep_day: int, dep_month: int, dep_year: int,
-            dtd_start: int = -1, dtd_end: int = 30):
+def predict(flight: pd.DataFrame, class_code: str, dep_day: int, dep_month: int, dep_year: int, dtd_start: int = -1, dtd_end: int = 30):
     """
     Model is read from file and predicts from given dataframe
 
@@ -84,8 +83,6 @@ def predict(df: pd.DataFrame, flt_num: int, class_code: str, dep_day: int, dep_m
     :return:
     """
     dtd = list(range(dtd_start, dtd_end + 1))
-    flight = df[(df['FLT_NUM'] == flt_num) & (df['DEP_DAY'] == dep_day) & (df['DEP_MONTH'] == dep_month) & (
-            df['DEP_YEAR'] == dep_year)].copy()
     flight = pd.concat([flight] * len(dtd))
     flight['DTD'] = dtd
     flight = flight[
