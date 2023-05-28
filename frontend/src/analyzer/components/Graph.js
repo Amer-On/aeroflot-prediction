@@ -55,6 +55,6 @@ export const data = {
   ],
 };
 
-export function MyGraphs() {
+export function Graph() {
   return <Line options={options} data={data}/>;
 }

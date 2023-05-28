@@ -1,4 +1,4 @@
-import {MyGraphs} from './Graph';
+import {Graph} from './Graph';
 import './Main.css';
 import './Loader.css';
 import {useNavigate} from "react-router-dom";
@@ -8,6 +8,7 @@ import {redirect} from 'react-router-dom'
 import flight from './flight.json'
 import {useRef} from "react";
 import axios from 'axios';
+import Chart from "./Chart";
 
 
 function Analyzer(props) {
@@ -23,13 +24,6 @@ function Analyzer(props) {
     const inputSegClasCode = useRef(null);
     const inputPeriod = useRef(null);
 
-
-    let classNameForm = 'main-form';
-    let classNameForm_btn = 'predict-btn';
-    if (props.title == 'Определение сезонности') {
-        classNameForm = 'main-form1';
-        classNameForm_btn = 'predict-btn1';
-    }
 
     useEffect(
         () => {
@@ -71,7 +65,7 @@ function Analyzer(props) {
             <div className='form'>
                 <h1 className='main-h1'>{props.title}</h1>
                 <div className='input'>
-                    <form className={classNameForm} onSubmit={submitFormHandler}>
+                    <form className='main-form' onSubmit={submitFormHandler}>
                         <div className='f-form'>
                             <select onChange={handlerRouteChange} ref={inputRoute}>
                                 <option disabled>-- Выберите направление --</option>
@@ -109,7 +103,6 @@ function Analyzer(props) {
                                 <option value="Z">Z</option>
                                 <option value="Y">Y</option>
                                 <option value="X">X</option>
-                                <option value="V">V</option>
                                 <option value="U">U</option>
                                 <option value="T">T</option>
                                 <option value="R">R</option>
@@ -130,27 +123,17 @@ function Analyzer(props) {
                                 <option value="B">B</option>
                             </select>
                         </div>
-                        {props.title == 'Определение сезонности' &&
+                        {props.title == 'Профиль спроса' &&
                             <div className='four-form'>
                                 <label>1 - 365</label><br/>
                                 <input type='text' min={1} max={365}/>
                             </div>
                         }
-                        <button className={classNameForm_btn} type='submit'><p>сгенерировать</p></button>
+                        <button className='predict-btn' type='submit'><p>сгенерировать</p></button>
                     </form>
-
                 </div>
             </div>
-            <div className='charts'>
-                <div className='f-graph'>
-                    {!data ?
-                        (<div className='lds-hourglass'></div>)
-                        :
-                        <MyGraphs data={data}/>
-                    }
-
-                </div>
-            </div>
+            <Chart data={data} title={props.title}/>
         </>
     );
 }
