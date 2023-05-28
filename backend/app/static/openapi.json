@@ -258,7 +258,7 @@
         "/ml/seasons": {
             "post": {
                 "summary": "Seasons",
-                "description": "Requirements in json {\n    seg_class_code: str,\n    flt_num: int,\n}\nNot require, but can be used in json {\n    date_start: YYYY-MM-DD = -1-1,\n    date_finish: YYYY-MM-DD = -12-31,\n    period: int = 365,\n    fourier: int | None = None,\n}",
+                "description": "Requirements in json {\n    seg_class_code: str,\n    flt_num: int,\n}\nNot require, but can be used in json {\n    date_start: YYYY-MM-DD = -1-1,\n    date_finish: YYYY-MM-DD = -12-31,\n}",
                 "operationId": "seasons_ml_seasons_post",
                 "requestBody": {
                     "content": {
@@ -373,7 +373,54 @@
                                     "title": "Response Predict Ml Predict Post",
                                     "anyOf": [
                                         {
-                                            "$ref": "#/components/schemas/DynamicResponse"
+                                            "$ref": "#/components/schemas/PredictResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ErrorResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ml/profile": {
+            "post": {
+                "summary": "Profile",
+                "description": "Requirements in json {\n    seg_class_code: str,\n    flt_num: int,\n}\nNot require, but can be used in json {\n    date_start: YYYY-MM-DD = -1-1,\n    date_finish: YYYY-MM-DD = -12-31,\n    period: int = 365,\n}",
+                "operationId": "profile_ml_profile_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProfileReport"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Profile Ml Profile Post",
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/components/schemas/ProfileResponse"
                                         },
                                         {
                                             "$ref": "#/components/schemas/ErrorResponse"
@@ -547,6 +594,115 @@
                     }
                 }
             },
+            "PredictResponse": {
+                "title": "PredictResponse",
+                "required": [
+                    "date",
+                    "values"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "ok"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "date": {
+                        "title": "Date",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "values": {
+                        "title": "Values",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
+            "ProfileReport": {
+                "title": "ProfileReport",
+                "required": [
+                    "seg_class_code",
+                    "flt_num"
+                ],
+                "type": "object",
+                "properties": {
+                    "seg_class_code": {
+                        "title": "Seg Class Code",
+                        "type": "string"
+                    },
+                    "flt_num": {
+                        "title": "Flt Num",
+                        "type": "integer"
+                    },
+                    "date_start": {
+                        "title": "Date Start",
+                        "type": "string",
+                        "default": "2018-01-01"
+                    },
+                    "date_finish": {
+                        "title": "Date Finish",
+                        "type": "string",
+                        "default": "2018-12-31"
+                    },
+                    "period": {
+                        "title": "Period",
+                        "type": "integer",
+                        "default": 365
+                    },
+                    "fourier": {
+                        "title": "Fourier",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ProfileResponse": {
+                "title": "ProfileResponse",
+                "required": [
+                    "profile",
+                    "fourier_profile"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "ok"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "profile": {
+                        "title": "Profile",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "fourier_profile": {
+                        "title": "Fourier Profile",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
             "SearchCitiesResponse": {
                 "title": "SearchCitiesResponse",
                 "required": [
@@ -600,22 +756,13 @@
                         "title": "Date Finish",
                         "type": "string",
                         "default": "2018-12-31"
-                    },
-                    "period": {
-                        "title": "Period",
-                        "type": "integer",
-                        "default": 365
-                    },
-                    "fourier": {
-                        "title": "Fourier",
-                        "type": "integer"
                     }
                 }
             },
             "SeasonsResponse": {
                 "title": "SeasonsResponse",
                 "required": [
-                    "seasons"
+                    "data"
                 ],
                 "type": "object",
                 "properties": {
@@ -631,15 +778,9 @@
                         "title": "Message",
                         "type": "string"
                     },
-                    "seasons": {
-                        "title": "Seasons",
-                        "type": "array",
-                        "items": {}
-                    },
-                    "fourier_seasons": {
-                        "title": "Fourier Seasons",
-                        "type": "array",
-                        "items": {}
+                    "data": {
+                        "title": "Data",
+                        "type": "object"
                     }
                 }
             },
