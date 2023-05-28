@@ -1,0 +1,61 @@
+ INFO  Accepting connections at http://localhost:3000
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 GET /login
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 Returned 200 in 9 ms
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 GET /index.css
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 GET /static/js/main.f2e01f25.js
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 GET /static/css/main.6cf46235.css
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 GET /static/media/backimg.d2b43498ccd21e65c242.jpg
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 GET /static/media/aflogo.0ab21a3860721a6d106c.webp
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  5/28/2023 7:05:27 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:06:55 PM 127.0.0.1 GET /
+ HTTP  5/28/2023 7:06:55 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:08:22 PM 127.0.0.1 GET /favicon.ico
+ HTTP  5/28/2023 7:08:22 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:08:43 PM 127.0.0.1 GET /
+ HTTP  5/28/2023 7:08:43 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  5/28/2023 7:08:44 PM 127.0.0.1 GET /
+ HTTP  5/28/2023 7:08:44 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:08:46 PM 127.0.0.1 GET /
+ HTTP  5/28/2023 7:08:46 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 GET /index.css
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 GET /static/css/main.6cf46235.css
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 GET /static/js/main.f2e01f25.js
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 GET /static/media/backimg.d2b43498ccd21e65c242.jpg
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 GET /static/media/aflogo.0ab21a3860721a6d106c.webp
+ HTTP  5/28/2023 7:08:47 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  5/28/2023 7:08:50 PM 127.0.0.1 GET /
+ HTTP  5/28/2023 7:08:50 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:24:28 PM 127.0.0.1 GET /robots.txt
+ HTTP  5/28/2023 7:24:28 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:24:29 PM 127.0.0.1 GET /login
+ HTTP  5/28/2023 7:24:29 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 GET /
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 GET /index.css
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 GET /static/js/main.f2e01f25.js
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 GET /static/css/main.6cf46235.css
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 Returned 304 in 0 ms
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 GET /static/media/aflogo.0ab21a3860721a6d106c.webp
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 GET /static/media/backimg.d2b43498ccd21e65c242.jpg
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  5/28/2023 7:35:09 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  5/28/2023 7:50:14 PM 127.0.0.1 GET /favicon.ico
+ HTTP  5/28/2023 7:50:14 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 7:52:53 PM 127.0.0.1 GET /favicon.ico
+ HTTP  5/28/2023 7:52:53 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  5/28/2023 8:18:46 PM 127.0.0.1 GET /
+ HTTP  5/28/2023 8:18:46 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  5/28/2023 8:18:46 PM 127.0.0.1 GET /favicon.ico
+ HTTP  5/28/2023 8:18:46 PM 127.0.0.1 Returned 200 in 1 ms
+
+ INFO  Gracefully shutting down. Please wait...

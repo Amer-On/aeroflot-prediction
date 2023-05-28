@@ -1,60 +1,72 @@
 import React from 'react';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
 } from 'chart.js';
 
-import { Line } from 'react-chartjs-2';
+import {Line} from 'react-chartjs-2';
 
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
 );
 
 export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'top',
+        },
+        // colors: {
+        //     forceOverride: true
+        // }
     },
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart',
-    },
-  },
 };
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+export function Graph(props) {
+    const labels = props.x;
+    console.log(labels)
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [10, 30, 12, 12, 324, 234, 2],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: [2, 0, 12, 12, 33, 50, 2],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+    const datasets = []
 
-export function MyGraphs() {
-  return <Line options={options} data={data}/>;
+    for (var i = 0; i < props.y.length; i++) {
+        datasets.push(
+            {
+                label: props.keys[i],
+                data: props.y[i],
+                // backgroundColor: 'RGB(props.keys[i], props.keys[i], props.keys[i])',
+                // palette('tol', props.x.length).map(function(hex);
+                borderColor: getRandomColor(),
+                // backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            }
+        )
+    }
+
+    const data = {
+        labels,
+        datasets: datasets
+    };
+    console.log(labels)
+    console.log(props.y)
+
+    return <Line options={options} data={data}/>;
 }

@@ -1,8 +1,11 @@
 import psycopg2
 import asyncpg
+from datetime import datetime
 from .config_db import *
+from .ml_schemas import *
 
 from ..schemas import UserLoginSchema
+
 
 async def _create_connection():
     try:
@@ -82,3 +85,68 @@ async def delete_user_by_user_id_db(conn: asyncpg.Connection, user_id: str):
         )
     except:
         pass
+
+
+@connect_to_db
+async def fetch_ml_data_for_seasons_db(
+    conn: asyncpg.Connection, 
+    seg_class_code: str, 
+    flt_num: int, 
+    date_start: DateNoYear = DateNoYear(day=1, month=1),
+    date_finish: DateNoYear = DateNoYear(day=31, month=12),
+):
+    return await conn.fetch(
+            '''SELECT dtd, pass_bk FROM "data_for_ml" 
+            WHERE seg_class_code = $1 AND flt_num = $2 AND 
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $3 AND $4 AND
+            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $5 AND $6''',
+            seg_class_code, flt_num, 
+            date_start.month, date_finish.month,
+            date_start.day, date_finish.day
+    )
+
+
+@connect_to_db
+async def fetch_ml_data_for_profile_db(
+    conn: asyncpg.Connection, 
+    seg_class_code: str, 
+    flt_num: int, 
+    date_start: DateNoYear = DateNoYear(day=1, month=1),
+    date_finish: DateNoYear = DateNoYear(day=31, month=12),
+):
+    return await conn.fetch(
+            '''SELECT dat_s, pass_bk FROM "data_for_ml" 
+            WHERE seg_class_code = $1 AND flt_num = $2 AND 
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $3 AND $4 AND
+            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $5 AND $6''',
+            seg_class_code, flt_num, 
+            date_start.month, date_finish.month,
+            date_start.day, date_finish.day
+    )
+
+
+@connect_to_db
+async def fetch_ml_data_for_dynamic_db(
+    conn: asyncpg.Connection, 
+    seg_class_code: str, 
+    flt_num: int, 
+    date: datetime,
+):
+    return await conn.fetch(
+            '''SELECT dat_s, pass_bk, dtd FROM "data_for_ml" 
+            WHERE seg_class_code = $1 AND flt_num = $2 AND dep_day = $3 AND dep_month = $4 AND dep_year = $5''',
+            seg_class_code, flt_num, date.day, date.month, date.year
+    )
+
+
+@connect_to_db
+async def fetch_ml_data_for_predict_db(
+    conn: asyncpg.Connection, 
+    flt_num: int, 
+    date: datetime,
+):
+    return await conn.fetch(
+            '''SELECT * FROM "data_for_predict" 
+            WHERE flt_num = $1 AND dep_day = $2 AND dep_month = $3 AND dep_year = $4''',
+            flt_num, date.day, date.month, date.year
+        )

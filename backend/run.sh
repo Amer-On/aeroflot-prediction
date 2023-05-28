@@ -22,4 +22,5 @@ else
     echo "Activating virtual environment $VENVPATH"
     source "$VENVPATH"
     nohup python3  __main__.py &
+    deactivate
 fi
