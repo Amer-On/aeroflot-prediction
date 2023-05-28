@@ -38,6 +38,29 @@
     margin-left: 10px;
 }
 
+.four-form {
+    margin-left: 10px;
+    margin-top: -18px;
+}
+
+.four-form input{
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 60px;
+    height: 50px;
+    padding-left: 15px;
+}
+
+.four-form input:focus{
+    outline: none;
+}
+
+.four-form label{
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+}
+
 .date{
     margin-top: -18px;
     display: inline-block;
@@ -93,6 +116,23 @@
     display: flex;   
     width: 100%;
     justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.main-form1{
+    padding-left: 25px;
+    padding-right: 25px;
+    display: flex;   
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.main-form1 select{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 5px;
+    border-radius: 5px;
 }
 
 .s-form, .t-form{
@@ -132,6 +172,27 @@ option{
     text-transform: uppercase;
 }
 
+.predict-btn1{
+    border: 0px;
+    border-radius: 10px;
+    padding: 12px 5px;
+    background-color: #5072CE;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.predict-btn1:hover{
+    outline: 0.5px solid black;
+}
+
+.predict-btn1 p{
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
 .charts{
     max-width: 1440px;
     background-color: rgba(255, 255, 255, 0.9);
@@ -145,4 +206,8 @@ option{
 .f-graph{
     margin: 0 auto;
     width: 60vw;
+}
+
+.seasons{
+
 }

@@ -23,6 +23,7 @@ function App(props) {
                 () => {
                     if (props.requiresLogin) {
                         navigate('/login')
+                        console.log("saadsdadadads")
                     }
                     setIsAuthenticated(false)
                 }
