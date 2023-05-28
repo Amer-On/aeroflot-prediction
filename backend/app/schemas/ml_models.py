@@ -8,8 +8,6 @@ class SeasonsReport(BaseModel):
     flt_num: int
     date_start: str = "2018-01-01"
     date_finish: str = "2018-12-31"
-    period: int = 365
-    fourier: int | None = None
 
 
 class DynamicReport(BaseModel):
@@ -29,6 +27,15 @@ class PredictReport(BaseModel):
     dtd_end: int = 30
 
 
+class ProfileReport(BaseModel):
+    seg_class_code: str
+    flt_num: int
+    date_start: str = "2018-01-01"
+    date_finish: str = "2018-12-31"
+    period: int = 365
+    fourier: int | None = None
+
+
 class DynamicResponse(BaseResponse):
     status: Status = Status.OK
     flight_dynamic: list
@@ -44,3 +51,9 @@ class PredictResponse(BaseResponse):
     status: Status = Status.OK
     date: list[str]
     values: list[int]
+
+
+class ProfileResponse(BaseResponse):
+    status: Status = Status.OK
+    profile: list[int]
+    fourier_profile: list[int]

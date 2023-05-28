@@ -72,7 +72,7 @@ def get_dynamic(flight_dynamic: pd.DataFrame, period_start: str | None = None, p
     return flight_dynamic, None
 
 
-def demand_profile(df: pd.DataFrame, period: int = 365, fourier: int | None = None) \
+def get_demand_profile(df: pd.DataFrame, period: int = 365, fourier: int | None = None) \
         -> Tuple[statsmodels.tsa.seasonal.DecomposeResult, np.ndarray | None]:
     """
     Make seasonal decompose
@@ -91,24 +91,24 @@ def demand_profile(df: pd.DataFrame, period: int = 365, fourier: int | None = No
 
     # Grouping by check date
     flight = df.groupby('DAT_S')['PASS_BK'].sum()
-    # Get seasons by period
-    seasons = seasonal_decompose(flight, model='additive', period=period).seasonal
+    # Get profile by period
+    profile = seasonal_decompose(flight, model='additive', period=period).seasonal
 
     # Get fourier smoothing if needed
     if fourier:
         # Fast fourier transform
-        fourier_seasons = rfft(seasons[:period].values)
+        fourier_profile = rfft(profile[:period].values)
         # Drop noise signals
-        fourier_seasons[fourier:] = 0
+        fourier_profile[fourier:] = 0
 
         # Inverse fourier transform
-        fourier_seasons = irfft(fourier_seasons)
+        fourier_profile = irfft(fourier_profile)
 
-        if fourier_seasons.size != seasons.size:
-            fourier_seasons = np.append(fourier_seasons, seasons[period])
+        if fourier_profile.size != profile.size:
+            fourier_profile = np.append(fourier_profile, profile[period])
 
-        # Return seasons and fourier smoothing
-        return seasons[:period], fourier_seasons
+        # Return profile and fourier smoothing
+        return profile[:period], fourier_profile
 
-    # Return seasons
-    return seasons[:period], None
+    # Return profile
+    return profile[:period], None
