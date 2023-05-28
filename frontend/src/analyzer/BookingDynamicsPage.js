@@ -17,15 +17,12 @@ function BookingDynamicsPage() {
     const inputDateStart = useRef(null);
     const inputDateEnd = useRef(null);
 
-
     function handleRouteChange(e) {
         setFlights(flight[e.target.value])
     }
 
-
     const responseBody = {
-        'seg_class_code': '', 'flt_num': 0, 'dep_date': undefined,
-        // "period_start": undefined, 'period_end': undefined
+        'seg_class_code': '', 'flt_num': 0, 'dep_date': undefined
     }
 
     const route = '/api/ml/dynamic'
@@ -38,7 +35,7 @@ function BookingDynamicsPage() {
 
         if (inputDateStart.current.value) {
             responseBody.date_start = inputDateStart.current.value;
-            }
+        }
         if (inputDateEnd.current.value) {
             responseBody.date_end = inputDateEnd.current.value;
         }
@@ -127,12 +124,6 @@ function BookingDynamicsPage() {
             </div>
             <Chart data={data} title={title}/>
         </>
-
-
-
-
-
-
     );
 }
 
