@@ -26,7 +26,7 @@ from ..auth import auth
 router = APIRouter()
 
 @router.post("/ml/seasons",
-            response_model=SeasonsResponse | ErrorResponse)
+            response_model=SeasonsResponse | ErrorResponse, dependencies=[Depends(auth)])
 async def seasons(report: SeasonsReport = Body()):
     '''
     Requirements in json {
