@@ -7,6 +7,7 @@ from .formatter_pandas import (
     report_for_seasons, 
     report_for_dynamic,
     report_for_predict,
+    report_for_profile,
 )
 
 
@@ -81,3 +82,28 @@ async def report_predict(
         dtd_end=dtd_end,
     )
     return data
+
+
+async def report_profile(
+    seg_class_code: str, 
+    flt_num: int, 
+    date_start: DateNoYear = DateNoYear(day=1, month=1),
+    date_finish: DateNoYear = DateNoYear(day=31, month=12),
+    period: int = 365,
+    fourier: int | None = None,
+):
+    fetch_results = await db_methods.fetch_ml_data_for_profile_db(
+        seg_class_code=seg_class_code,
+        flt_num=flt_num,
+        date_start=date_start,
+        date_finish=date_finish,
+        )
+    print("Fetch finish")
+    report_data = report_for_profile(fetch_results)
+    print("Formatted finish")
+    profile, fourier_profile = analytics.get_demand_profile(
+        df=report_data, 
+        period=period, 
+        fourier=fourier
+        )
+    return list(map(int, profile)), list(map(int, fourier_profile))

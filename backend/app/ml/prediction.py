@@ -92,6 +92,7 @@ def predict(flight: pd.DataFrame, class_code: str, dep_day: int, dep_month: int,
     model = CatBoostRegressor().load_model(f'app/ml/models/{class_code}_CLASS')
 
     flight['PASS_BK'] = model.predict(flight).round().astype(int)
+    flight[flight['PASS_BK']<0] = 0
     # TODO: OPTIMIZE
     start = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_end)
     end = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_start)
