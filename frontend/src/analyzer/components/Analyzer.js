@@ -33,7 +33,7 @@ function Analyzer(props) {
         }
     );
 
-    function handlerRouteChange(e) {
+    function handleRouteChange(e) {
         setFlights(flight[e.target.value])
     }
 
@@ -67,7 +67,7 @@ function Analyzer(props) {
                 <div className='input'>
                     <form className='main-form' onSubmit={submitFormHandler}>
                         <div className='f-form'>
-                            <select onChange={handlerRouteChange} ref={inputRoute}>
+                            <select onChange={handleRouteChange} ref={inputRoute}>
                                 <option disabled>-- Выберите направление --</option>
                                 <option value="SVO-AER">Москва - Сочи</option>
                                 <option value="AER-SVO">Сочи - Москва</option>
@@ -92,6 +92,11 @@ function Analyzer(props) {
                                        required ref={inputDateStart}/>
                             </div>
                             <div className='date date-end'>
+                                <label htmlFor='end'>Конец</label><br/>
+                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
+                                       required ref={inputDateEnd}/>
+                            </div>
+                            <div className='date date-start'>
                                 <label htmlFor='end'>Конец</label><br/>
                                 <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
                                        required ref={inputDateEnd}/>
