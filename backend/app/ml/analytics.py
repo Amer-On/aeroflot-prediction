@@ -2,11 +2,51 @@ import pandas as pd
 import numpy as np
 from statsmodels.tsa.seasonal import seasonal_decompose
 import statsmodels.tsa
-from scipy import rfft, irfft
+from scipy.fft import rfft, irfft
 from typing import Tuple
 
+def get_seasons(df: pd.DataFrame, period: int = 365, fourier: int | None = None) \
+        -> Tuple[statsmodels.tsa.seasonal.DecomposeResult, np.ndarray | None]:
+    """
+    Make seasonal decompose
 
-def get_seasons(df: pd.DataFrame, class_code: str, flt_num: int, day_start: int = 1, day_end: int = 31,
+    :param pd.DataFrame df: origin DataFrame
+    :param str class_code: single symbol code representing Seg Class Code
+    :param flt_num: flight number(code)
+    :param int, default 1 day_start: day start of flights
+    :param int, default 31 day_end: day end of flights
+    :param int, default 1 month_start: month start of flights
+    :param int, default 12 month_end: month end of flights
+    :param int, default 365 period: period to make seasonal decompose, by default decompose by each year
+    :param int | None, default None fourier: optional parameter, make fourier decompose to prettify the final graph
+    :return: result of seasonal decompose and result prettified by fourier
+    """
+
+    # Grouping by check date
+    flight = df.groupby('DAT_S')['PASS_BK'].sum()
+    # Get seasons by period
+    seasons = seasonal_decompose(flight, model='additive', period=period).seasonal
+
+    # Get fourier smoothing if needed
+    if fourier:
+        # Fast fourier transform
+        fourier_seasons = rfft(seasons[:period].values)
+        # Drop noise signals
+        fourier_seasons[fourier:] = 0
+
+        # Inverse fourier transform
+        fourier_seasons = irfft(fourier_seasons)
+
+        if fourier_seasons.size != seasons.size:
+            fourier_seasons = np.append(fourier_seasons, seasons[period])
+
+        # Return seasons and fourier smoothing
+        return seasons[:period], fourier_seasons
+
+    # Return seasons
+    return seasons[:period], None
+
+def _get_seasons(df: pd.DataFrame, class_code: str, flt_num: int, day_start: int = 1, day_end: int = 31,
                 month_start: int = 1, month_end: int = 12, period: int = 365, fourier: int | None = None) \
         -> Tuple[statsmodels.tsa.seasonal.DecomposeResult, np.ndarray | None]:
     """

@@ -1,3 +1,7 @@
-from analytics import *
-from prediction import *
-from preprocessing import *
+from . import (
+    formatter_pandas,
+    models,
+    analytics,
+    prediction,
+    preprocessing
+)
