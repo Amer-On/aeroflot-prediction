@@ -25,7 +25,7 @@ function BookingDynamicsPage() {
 
     const responseBody = {
         'seg_class_code': '', 'flt_num': 0, 'dep_date': undefined,
-        "period_start": undefined, 'period_end': undefined
+        // "period_start": undefined, 'period_end': undefined
     }
 
     const route = '/api/ml/dynamic'
@@ -34,7 +34,8 @@ function BookingDynamicsPage() {
         event.preventDefault();
         responseBody.seg_class_code = inputSegClasCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
-        responseBody.period_start = inputDepartureDate.current.value;
+        responseBody.dep_date = inputDepartureDate.current.value;
+
         if (inputDateStart.current.value) {
             responseBody.date_start = inputDateStart.current.value;
             }
