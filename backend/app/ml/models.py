@@ -29,7 +29,9 @@ async def report_seasons(
     seasons = analytics.get_seasons(df=report_data)
     data = {}
     for el in seasons:
-        data[str(el)] = list(seasons[el])
+        data[str(el)] = {}
+        data[str(el)]['values'] = list(seasons[el])
+        data[str(el)]['indexes'] = list(seasons[el].keys())
     return data
 
 
@@ -55,7 +57,7 @@ async def report_dynamic(
         period_end=period_end,
         fourier=fourier
         )
-    return flight_dynamic, fourier_dynamic
+    return list(flight_dynamic.keys()), flight_dynamic, fourier_dynamic
 
 
 async def report_predict(

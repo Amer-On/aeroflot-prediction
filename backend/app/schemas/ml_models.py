@@ -38,6 +38,7 @@ class ProfileReport(BaseModel):
 
 class DynamicResponse(BaseResponse):
     status: Status = Status.OK
+    indexes: list
     flight_dynamic: list
     fourier_dynamic: list | None = None
 

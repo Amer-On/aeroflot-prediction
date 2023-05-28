@@ -29,7 +29,7 @@ from ..auth import auth
 router = APIRouter()
 
 @router.post("/ml/seasons",
-            response_model=SeasonsResponse | ErrorResponse, dependencies=[Depends(auth)])
+            response_model=SeasonsResponse | ErrorResponse)
 async def seasons(report: SeasonsReport = Body()):
     '''
     Requirements in json {
@@ -81,15 +81,31 @@ async def dynamic(report: DynamicReport = Body()):
     year, month, day = map(int, report.dep_date.split("-"))
     date = datetime(day=day, month=month, year=year)
     
-    flight_dynamic, fourier_dynamic = await report_dynamic(
+    if report.period_start and report.period_end:
+        year, month, day = map(int, report.period_start.split("-"))
+        date_start = datetime(day=day, month=month, year=year)
+
+        year, month, day = map(int, report.period_end.split("-"))
+        date_finish = datetime(day=day, month=month, year=year)
+
+        fourier = (date_finish - date_start).days // 5
+    else:
+        fourier = 6
+
+
+    indexes, flight_dynamic, fourier_dynamic = await report_dynamic(
         seg_class_code=report.seg_class_code,
         flt_num=int(report.flt_num),
         date=date,
         period_start=report.period_start,
         period_end=report.period_end,
-        fourier=int(report.fourier) if report.fourier else None,
+        fourier=fourier,
     )
-    return DynamicResponse(flight_dynamic=list(flight_dynamic), fourier_dynamic=list(fourier_dynamic) if fourier_dynamic is not None else None)
+    return DynamicResponse(
+        indexes=indexes,
+        flight_dynamic=list(flight_dynamic), 
+        fourier_dynamic=list(fourier_dynamic) if fourier_dynamic is not None else None
+        )
 
 
 @router.post("/ml/predict",
