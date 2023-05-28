@@ -1,11 +1,14 @@
 import {MyGraphs} from './Graph';
 import './Main.css';
+import './Loader.css';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../auth/AuthContext";
 import {useEffect, useState} from "react";
 import {redirect} from 'react-router-dom'
 import flight from './flight.json'
 import {useRef} from "react";
+import axios from 'axios';
+
 
 
 function Analyzer(props) {
@@ -142,7 +145,8 @@ function Analyzer(props) {
             </div>
             <div className='charts'>
                 <div className='f-graph'>
-                    <MyGraphs/>
+                    <div className='lds-hourglass'> </div>
+                    {/* <MyGraphs/> */}
                 </div>
             </div>
         </>
