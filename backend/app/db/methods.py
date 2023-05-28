@@ -127,9 +127,8 @@ async def fetch_ml_data_for_predict_db(
     flt_num: int, 
     date: datetime,
 ):
-    formatted_date = f"{date.year}-{date.month}-{date.day}"
     return await conn.fetch(
-            '''SELECT * FROM "data_for_ml" 
-            WHERE flt_num = $1 AND dat_s = $2''',
-            flt_num, formatted_date
+            '''SELECT * FROM "data_for_predict" 
+            WHERE flt_num = $1 AND dep_day = $2 AND dep_month = $3 AND dep_year = $4''',
+            flt_num, date.day, date.month, date.year
         )
