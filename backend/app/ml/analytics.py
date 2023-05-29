@@ -45,6 +45,7 @@ def get_dynamic(flight_dynamic: pd.DataFrame, period_start: str | None = None, p
     # If user period
     if period_start:
         # Get need date in period
+        flight_dynamic['DAT_S'] = pd.to_datetime(flight_dynamic['DAT_S'])
         flight_dynamic = flight_dynamic[(flight_dynamic['DAT_S'] >= pd.to_datetime(period_start)) & (
                 flight_dynamic['DAT_S'] <= pd.to_datetime(period_end))].sort_values('DTD')
     # If not user period    

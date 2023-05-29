@@ -39,7 +39,7 @@ function BookingDynamicsPage() {
             responseBody.period_start = inputDateStart.current.value;
         }
         if (inputDateEnd.current.value) {
-            responseBody.date_end = inputDateEnd.current.value;
+            responseBody.period_end = inputDateEnd.current.value;
         }
         console.log(responseBody)
 
@@ -50,11 +50,8 @@ function BookingDynamicsPage() {
                 setX(d['indexes'])
                 const arrY = []
                 arrY.push(d['flight_dynamic'])
-                arrY.push(d['fourier_dynamic'])
+                // arrY.push(d['fourier_dynamic'])
                 setY(arrY)
-                // process response
-                // setX(response.data.flight_dynamic)
-                // setY(response.data.)
             }
         ).catch(e => console.log(e))
     }
@@ -132,7 +129,7 @@ function BookingDynamicsPage() {
                     </form>
                 </div>
             </div>
-            <Chart x={x} y={y} keys={["Сглаженная динамика", 'Динамика']} title={title}/>
+            <Chart x={x} y={y} keys={['Динамика']} title={title}/>
         </>
     );
 }
