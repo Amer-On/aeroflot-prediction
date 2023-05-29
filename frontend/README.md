@@ -1,4 +1,26 @@
-# Getting Started with Create React App
+# Frontend
+Фронтенд написан на React с роутингом react-router & react-router-dom. Многочисленным использованием хуков и контекстов. 
+Вёрстка выполнялась вручную без использования Bootstrap и прочего
+
+
+## Deploy
+Установка зависимостей и сборка приложения
+```
+npm install
+npm run build
+```
+Установка сервера serve для фронта
+```
+npm install -g serve
+```
+Разрешение на исполнение скрипта и запуск сервера отдачи фронтенда
+```
+chmod 777 run.sh
+. run.sh
+```
+---
+# Типичный Create React App README
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
