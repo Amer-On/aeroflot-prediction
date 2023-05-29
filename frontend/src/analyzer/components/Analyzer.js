@@ -1,16 +1,15 @@
-import {Graph} from './Graph';
 import './Main.css';
 import './Loader.css';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../auth/AuthContext";
 import {useEffect, useState} from "react";
-import {redirect} from 'react-router-dom'
 import flight from './flight.json'
 import {useRef} from "react";
 import axios from 'axios';
 import Chart from "./Chart";
 
 
+// DEPRECATED
 function Analyzer(props) {
     const {isAuthenticated} = useAuth();
     const navigate = useNavigate();
@@ -54,7 +53,6 @@ function Analyzer(props) {
         axios.post(host + props.route, responseBody, {withCredentials: true}).then(
             response => {
                 // process response
-                console.log(response)
             }
         ).catch(e => console.log(e))
     }

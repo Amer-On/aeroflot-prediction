@@ -1,4 +1,3 @@
-import Analyzer from "./components/Analyzer";
 import axios from "axios";
 import Chart from "./components/Chart";
 import {useRef, useState} from "react";
@@ -39,31 +38,23 @@ function SeasonDetectionPage() {
         if (inputDateEnd.current.value) {
             responseBody.date_end = inputDateEnd.current.value;
         }
-        console.log(responseBody)
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
                 // process response
-                console.log(response)
                 const d = response.data.data;
-                var xArr = []
                 const yArr = []
                 const keys = []
 
                 for (const idx in d) {
                     const x = d[idx]
-                    // xArr = xArr.concat(x['indexes'].filter(item => xArr.indexOf(item)));
                     yArr.push(x['values'])
                     keys.push(idx)
                 }
                 keys[keys.length - 1] = 'Сезонность'
-                console.log(keys)
                 setX(d['large_changes']['indexes'])
                 setY(yArr)
                 setKeys(keys)
-
-                // setX(response.data.data.large_changes)
-                // setY(response.data.)
             }
         ).catch(e => console.log(e))
     }

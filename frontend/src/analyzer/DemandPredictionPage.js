@@ -1,4 +1,3 @@
-import Analyzer from "./components/Analyzer";
 import Chart from "./components/Chart";
 import {useRef, useState} from "react";
 import flight from './components/flight.json'
@@ -26,7 +25,6 @@ function DemandPredictionPage() {
 
     const responseBody = {
         'seg_class_code': '', 'flt_num': 0, 'dep_date': undefined
-        // dtd_start: int = -1, dtd_end: int = 30
     }
 
     const route = '/api/ml/predict'
@@ -51,8 +49,6 @@ function DemandPredictionPage() {
                 // process response
                 setX(response.data.date)
                 setY(newArr)
-
-                console.log(response)
             }
         ).catch(e => console.log(e))
     }

@@ -28,9 +28,6 @@ export const options = {
         legend: {
             position: 'top',
         },
-        // colors: {
-        //     forceOverride: true
-        // }
     },
 };
 function getRandomColor() {
@@ -53,10 +50,7 @@ export function Graph(props) {
             {
                 label: props.keys[i],
                 data: props.y[i],
-                // backgroundColor: 'RGB(props.keys[i], props.keys[i], props.keys[i])',
-                // palette('tol', props.x.length).map(function(hex);
                 borderColor: getRandomColor(),
-                // backgroundColor: 'rgba(255, 99, 132, 0.5)',
             }
         )
     }
