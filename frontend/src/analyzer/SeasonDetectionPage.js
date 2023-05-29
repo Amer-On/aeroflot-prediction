@@ -56,6 +56,8 @@ function SeasonDetectionPage() {
                     yArr.push(x['values'])
                     keys.push(idx)
                 }
+                keys[keys.length - 1] = 'Сезонность'
+                console.log(keys)
                 setX(d['large_changes']['indexes'])
                 setY(yArr)
                 setKeys(keys)

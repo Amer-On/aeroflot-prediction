@@ -39,7 +39,7 @@ function Header(props) {
                     </Link>
                     <Link to='/demand-prediction'>
                         <li>
-                            <button>Предсказания спроса</button>
+                            <button>Предсказание спроса</button>
                         </li>
                     </Link>
                     <Link to='/demand-profile'>
