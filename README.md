@@ -10,7 +10,7 @@ password: test
 ```
 ```Host:``` https://penguin-code.ru/
 
-## [Документация](https://penguin-code.ru/api/docs)
+```Документация``` https://penguin-code.ru/api/docs
 
 В Рамках задачи мы разработали веб-сервис для анализа спроса и его прогнозирования.
 ---
