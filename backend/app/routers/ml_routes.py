@@ -12,7 +12,7 @@ from ..ml.models import (
     report_predict,
     report_profile,
 )
-from ..schemas.base import ErrorResponse, OKResponse
+from ..schemas.base import ErrorResponse, ErrorCode
 from ..schemas.ml_models import (
     SeasonsReport,
     DynamicReport,
@@ -53,14 +53,20 @@ async def seasons(report: SeasonsReport = Body()):
         month=month
     )
     
-    seasons = await report_seasons(
-        seg_class_code=report.seg_class_code,
-        flt_num=int(report.flt_num),
-        date_start=date_start,
-        date_finish=date_finish,
-    )
+    try:
+        seasons = await report_seasons(
+            seg_class_code=report.seg_class_code,
+            flt_num=int(report.flt_num),
+            date_start=date_start,
+            date_finish=date_finish,
+        )
 
-    return SeasonsResponse(data=seasons)
+        return SeasonsResponse(data=seasons)
+    except:
+        return ErrorResponse(
+            message="This flight with the selected data cannot be analyzed",
+            error_code=ErrorCode.ANALYZE_ERROR
+        )
 
 
 @router.post("/ml/dynamic",
@@ -92,19 +98,24 @@ async def dynamic(report: DynamicReport = Body()):
     else:
         fourier = 6
 
-
-    indexes, flight_dynamic, fourier_dynamic = await report_dynamic(
-        seg_class_code=report.seg_class_code,
-        flt_num=int(report.flt_num),
-        date=date,
-        period_start=report.period_start,
-        period_end=report.period_end,
-        fourier=fourier,
-    )
-    return DynamicResponse(
-        indexes=indexes,
-        flight_dynamic=list(flight_dynamic), 
-        fourier_dynamic=list(fourier_dynamic) if fourier_dynamic is not None else None
+    try:
+        indexes, flight_dynamic, fourier_dynamic = await report_dynamic(
+            seg_class_code=report.seg_class_code,
+            flt_num=int(report.flt_num),
+            date=date,
+            period_start=report.period_start,
+            period_end=report.period_end,
+            fourier=fourier,
+        )
+        return DynamicResponse(
+            indexes=indexes,
+            flight_dynamic=list(flight_dynamic), 
+            fourier_dynamic=list(fourier_dynamic) if fourier_dynamic is not None else None
+        )
+    except:
+        return ErrorResponse(
+            message="This flight with the selected data cannot be analyzed",
+            error_code=ErrorCode.ANALYZE_ERROR
         )
 
 
@@ -132,9 +143,12 @@ async def predict(report: PredictReport = Body()):
             dtd_start=int(report.dtd_start),
             dtd_end=int(report.dtd_end)
         )
+        return PredictResponse(**data)
     except:
-        return ErrorResponse(message="Prediction error")
-    return PredictResponse(**data)
+        return ErrorResponse(
+            message="This flight with the selected data cannot be predicted",
+            error_code=ErrorCode.PREDICT_ERROR
+        )
 
 
 @router.post("/ml/profile",
@@ -163,14 +177,19 @@ async def profile(report: ProfileReport = Body()):
         month=month
     )
     fourier = report.period // 5
+    try:
+        profile, fourier_profile = await report_profile(
+            seg_class_code=report.seg_class_code,
+            flt_num=int(report.flt_num),
+            date_start=date_start,
+            date_finish=date_finish,
+            period=int(report.period),
+            fourier=fourier,
+        )
 
-    profile, fourier_profile = await report_profile(
-        seg_class_code=report.seg_class_code,
-        flt_num=int(report.flt_num),
-        date_start=date_start,
-        date_finish=date_finish,
-        period=int(report.period),
-        fourier=fourier,
-    )
-
-    return ProfileResponse(profile=profile, fourier_profile=fourier_profile)
+        return ProfileResponse(profile=profile, fourier_profile=fourier_profile)
+    except:
+        return ErrorResponse(
+            message="This flight with the selected data cannot be analyzed",
+            error_code=ErrorCode.ANALYZE_ERROR
+        )

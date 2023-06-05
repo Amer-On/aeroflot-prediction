@@ -12,7 +12,7 @@ import jwt
 import logging
 
 from ..auth import secure, is_superuser, auth, decode_token
-from ..schemas import ErrorResponse, OKResponse
+from ..schemas import ErrorResponse, OKResponse, ErrorCode
 from ..schemas import UserLoginSchema
 from .. import db
 
@@ -25,7 +25,7 @@ router = APIRouter(
 async def login(response: Response, user: UserLoginSchema = Body()):
     user_id = await db.get_user_id(user)
     if user_id is None:
-        return ErrorResponse(message="Invalid user login and/or password")
+        return ErrorResponse(message="Invalid user login and/or password", error_code=ErrorCode.NOT_FOUND)
 
     token = secure({'user_id': user_id, 'exp': datetime.datetime.now() + datetime.timedelta(days=1)})
     response.set_cookie(key="access_token", value=token)
