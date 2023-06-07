@@ -3,6 +3,7 @@ import {useRef, useState} from "react";
 import flight from './components/flight.json'
 import axios from "axios";
 import {toast} from "react-toastify";
+import Loader from "../components/Loader";
 
 
 function DemandProfilePage() {
@@ -10,6 +11,7 @@ function DemandProfilePage() {
     const [flights, setFlights] = useState(flight["SVO-AER"]);
     const [x, setX] = useState(undefined);
     const [y, setY] = useState(undefined);
+    const [loader, setLoader] = useState(false);
 
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
@@ -31,6 +33,7 @@ function DemandProfilePage() {
 
     function submitFormHandler(event) {
         event.preventDefault();
+        setLoader(true)
         responseBody.seg_class_code = inputSegClassCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
 
@@ -46,6 +49,7 @@ function DemandProfilePage() {
         }
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
+                setLoader(false)
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 2) {
                         toast.error("В этот день нет вылета данного рейса или временные границы некорректны")
@@ -138,7 +142,12 @@ function DemandProfilePage() {
                     </form>
                 </div>
             </div>
-            <Chart x={x} y={y} keys={['Профиль спроса']}/>
+            {loader ? <Loader/> : <></>}
+            {x && y ?
+                <Chart x={x} y={y} keys={['Профиль спроса']} title={title}/>
+                :
+                <></>
+            }
         </>);
 }
 

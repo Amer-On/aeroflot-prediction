@@ -2,11 +2,14 @@ import Chart from "./components/Chart";
 import {useRef, useState} from "react";
 import flight from './components/flight.json'
 import axios from "axios";
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
+import Loader from "../components/Loader";
 
 function DemandPredictionPage() {
     let title = 'Предсказание спроса'
     const [flights, setFlights] = useState(flight["SVO-AER"]);
+    const [loader, setLoader] = useState(false);
+
     const [x, setX] = useState(undefined);
     const [y, setY] = useState(undefined);
 
@@ -31,6 +34,7 @@ function DemandPredictionPage() {
 
     function submitFormHandler(event) {
         event.preventDefault();
+        setLoader(true)
         responseBody.seg_class_code = inputSegClasCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
         responseBody.dep_date = inputDepartureDate.current.value;
@@ -44,6 +48,7 @@ function DemandPredictionPage() {
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
+                setLoader(false)
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 3) {
                         toast.error("В этот день нет вылета данного рейса")
@@ -137,7 +142,12 @@ function DemandPredictionPage() {
                     </form>
                 </div>
             </div>
-            <Chart x={x} y={y} keys={['Предсказание']}/>
+            {loader ? <Loader/> : <></>}
+            {x && y ?
+                <Chart x={x} y={y} keys={['Предсказание']} title={title}/>
+                :
+                <></>
+            }
         </>);
 }
 
