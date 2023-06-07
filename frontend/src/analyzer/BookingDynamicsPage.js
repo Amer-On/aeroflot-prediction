@@ -1,4 +1,3 @@
-import Analyzer from "./components/Analyzer";
 import axios from "axios";
 import Chart from "./components/Chart";
 import {useRef, useState} from "react";
@@ -8,7 +7,6 @@ import flight from './components/flight.json'
 function BookingDynamicsPage() {
     let title = 'Динамика бронирования'
     const [flights, setFlights] = useState(flight["SVO-AER"]);
-    const [data, setData] = useState(undefined);
 
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
@@ -45,13 +43,17 @@ function BookingDynamicsPage() {
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
-                console.log(response)
-                const d = response.data
-                setX(d['indexes'])
-                const arrY = []
-                arrY.push(d['flight_dynamic'])
-                // arrY.push(d['fourier_dynamic'])
-                setY(arrY)
+                if (response.data.status === 'error') {
+                    if (response.data.error_code === 2) {
+                        console.log("В этот день нет вылета данного рейса или временные границы некорректны")
+                    }
+                } else {
+                    const d = response.data
+                    setX(d['indexes'])
+                    const arrY = []
+                    arrY.push(d['flight_dynamic'])
+                    setY(arrY)
+                }
             }
         ).catch(e => console.log(e))
     }
