@@ -2,6 +2,8 @@ import axios from "axios";
 import Chart from "./components/Chart";
 import {useRef, useState} from "react";
 import flight from './components/flight.json'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function BookingDynamicsPage() {
@@ -44,9 +46,9 @@ function BookingDynamicsPage() {
             response => {
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 2) {
-                        console.log("В этот день нет вылета данного рейса или временные границы некорректны")
+                        toast.error("В этот день нет вылета данного рейса или временные границы некорректны")
                     } else {
-                        console.log("Неизвестная ошибка")
+                        toast.error("Неизвестная ошибка")
                     }
                 } else {
                     const d = response.data
@@ -56,7 +58,10 @@ function BookingDynamicsPage() {
                     setY(arrY)
                 }
             }
-        ).catch(e => console.log(e))
+        ).catch(e => {
+            toast.error("Неизвестная ошибка")
+            console.log(e)
+        })
     }
 
 

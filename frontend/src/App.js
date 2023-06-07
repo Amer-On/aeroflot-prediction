@@ -5,6 +5,7 @@ import {useAuth} from "./auth/AuthContext";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import axios from "axios";
+import {ToastContainer} from "react-toastify";
 
 
 function App(props) {
@@ -38,6 +39,18 @@ function App(props) {
                 navigate('/login')
                 :
                 (<div className='main-container'>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
                     <Header isLoginPage={props.isLoginPage}/>
                     <Outlet/>
                 </div>)}
