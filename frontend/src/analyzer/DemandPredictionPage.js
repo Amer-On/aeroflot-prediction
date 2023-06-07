@@ -43,7 +43,6 @@ function DemandPredictionPage() {
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
-                console.log(response)
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 3) {
                         console.log('В этот день нет вылета данного рейса')
