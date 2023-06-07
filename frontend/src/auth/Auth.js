@@ -10,16 +10,17 @@ function Auth() {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState();
-    const {setIsAuthenticated} = useAuth();
+    const {isAuthenticated, setIsAuthenticated} = useAuth();
     const navigate = useNavigate();
     const host = '';
+
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
         responseBody.login = login
         responseBody.password = password
 
-        axios.post(host + "/api/auth/login", responseBody, { withCredentials: true })
+        axios.post(host + "/api/auth/login", responseBody, {withCredentials: true})
             .then(
                 (response) => {
                     if (response.data.status === 'ok') {
@@ -38,30 +39,30 @@ function Auth() {
     }
     const responseBody = {login: '', password: ''}
 
-    return (
-        <div className="auth-container">
-            <div className="auth-wrap">
-                <p className="auth-p1">АВТОРИЗАЦИЯ</p>
-                <form onSubmit={onSubmitHandler}>
-                    <label htmlFor="login">Имя пользователя</label><br/>
-                    <input type="text" name="login" id="login" placeholder="Введите имя"
-                           required onChange={(e) => inputChangeHandler(setLogin, e)}></input>
-                    <label htmlFor="password">Пароль</label><br/>
-                    <input type="password" name="password" id="password" placeholder="Введите пароль"
-                           required onChange={(e) => inputChangeHandler(setPassword, e)}></input>
-                    {/*</form>*/}
-                    <ul className="auth-error">
-                        {error ?
-                            <li className="pwd-error"><p> {error}</p></li> :
-                            <></>
-                        }
-                    </ul>
-                    <center>
-                        <button type='submit' className="login-btn"><p>ВОЙТИ</p></button>
-                    </center>
-                </form>
+    return (isAuthenticated ? navigate('/home') :
+            <div className="auth-container">
+                <div className="auth-wrap">
+                    <p className="auth-p1">АВТОРИЗАЦИЯ</p>
+                    <form onSubmit={onSubmitHandler}>
+                        <label htmlFor="login">Имя пользователя</label><br/>
+                        <input type="text" name="login" id="login" placeholder="Введите имя"
+                               required onChange={(e) => inputChangeHandler(setLogin, e)}></input>
+                        <label htmlFor="password">Пароль</label><br/>
+                        <input type="password" name="password" id="password" placeholder="Введите пароль"
+                               required onChange={(e) => inputChangeHandler(setPassword, e)}></input>
+                        {/*</form>*/}
+                        <ul className="auth-error">
+                            {error ?
+                                <li className="pwd-error"><p> {error}</p></li> :
+                                <></>
+                            }
+                        </ul>
+                        <center>
+                            <button type='submit' className="login-btn"><p>ВОЙТИ</p></button>
+                        </center>
+                    </form>
+                </div>
             </div>
-        </div>
     );
 }
 

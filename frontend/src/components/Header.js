@@ -27,7 +27,9 @@ function Header(props) {
     return (
         <div className='header'>
             <div className='nav'>
-                <div className='logo'/>
+                <Link to='/home'>
+                    <div className='logo'/>
+                </Link>
                 <ul className='header-navigation'>
                     <Link to='/home'>
                         <li>
