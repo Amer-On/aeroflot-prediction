@@ -32,7 +32,7 @@ root.render(
 
                     <Route path='/' element={<App isLoginPage={true}/>}>
                         <Route path="/login" element={<Auth/>}/>
-                        {/*<Route path="/registration" element={<Register/>}/>*/}
+                        <Route path="/registration" element={<Register/>}/>
                     </Route>
                     <Route path='*' element={<NoMatch/>}/>
                 </Routes>
