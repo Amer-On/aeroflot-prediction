@@ -1,2 +1,2 @@
 #!/bin/bash
-nohup serve -s build &
+npm run build

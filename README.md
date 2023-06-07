@@ -27,10 +27,9 @@ password: test
 - catboost в качестве модели для предсказания спроса
 - pandas, numpy, pyplot etc
 ### [```Devops```](https://github.com/Amer-On/aeroflot-prediction/tree/main/deploy?plain=1#readme)
-- nginx в качестве обратного прокси сервера
+- nginx в качестве обратного прокси сервера а также для отдачи статических файлов фронтенда
 - certbot для подписи ssl сертификата
 - uvicorn в качестве ASGI сервера
-- npm serve сервер для фронтенда
 
 
 ##  ML Модели
