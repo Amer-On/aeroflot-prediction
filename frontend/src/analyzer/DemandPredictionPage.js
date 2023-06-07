@@ -2,6 +2,7 @@ import Chart from "./components/Chart";
 import {useRef, useState} from "react";
 import flight from './components/flight.json'
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 function DemandPredictionPage() {
     let title = 'Предсказание спроса'
@@ -45,9 +46,9 @@ function DemandPredictionPage() {
             response => {
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 3) {
-                        console.log('В этот день нет вылета данного рейса')
+                        toast.error("В этот день нет вылета данного рейса")
                     } else {
-                        console.log("Неизвестная ошибка")
+                        toast.error("Неизвестная ошибка")
                     }
                 } else {
                     let newArr = []
@@ -57,7 +58,10 @@ function DemandPredictionPage() {
                     setY(newArr)
                 }
             }
-        ).catch(e => console.log(e))
+        ).catch(e => {
+            toast.error("Неизвестная ошибка")
+            console.log(e)
+        })
     }
 
 

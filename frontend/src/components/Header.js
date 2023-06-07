@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import "./Header.css";
 import {useAuth} from "../auth/AuthContext";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 function Header(props) {
     const {isAuthenticated, setIsAuthenticated} = useAuth();
@@ -16,6 +17,7 @@ function Header(props) {
         axios.delete(host + "/api/auth/logout")
             .then(
                 () => {
+                    toast.success("Вы успешно вышли из аккаунта", {autoClose: 2000})
                     setIsAuthenticated(false)
                 }
             )

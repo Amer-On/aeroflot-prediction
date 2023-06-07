@@ -3,6 +3,7 @@ import "./Auth.css";
 import axios from "axios";
 import {useState} from "react";
 import {useAuth} from "./AuthContext";
+import {toast} from "react-toastify";
 
 
 function Auth() {
@@ -23,7 +24,8 @@ function Auth() {
                 (response) => {
                     if (response.data.status === 'ok') {
                         setIsAuthenticated(true);
-                        navigate("/");
+                        toast.success("Авторизация успешна", {autoClose: 2000})
+                        navigate("/home");
                     } else {
                         setError("Неверно введён логин и/или пароль");
                     }
