@@ -1,5 +1,4 @@
 import './Main.css';
-import './Loader.css';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../auth/AuthContext";
 import {useEffect, useState} from "react";

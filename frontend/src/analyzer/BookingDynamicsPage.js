@@ -2,13 +2,15 @@ import axios from "axios";
 import Chart from "./components/Chart";
 import {useRef, useState} from "react";
 import flight from './components/flight.json'
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../components/Loader";
 
 
 function BookingDynamicsPage() {
     let title = 'Динамика бронирования'
     const [flights, setFlights] = useState(flight["SVO-AER"]);
+    const [loader, setLoader] = useState(false);
 
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
@@ -31,6 +33,7 @@ function BookingDynamicsPage() {
 
     function submitFormHandler(event) {
         event.preventDefault();
+        setLoader(true)
         responseBody.seg_class_code = inputSegClasCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
         responseBody.dep_date = inputDepartureDate.current.value;
@@ -44,6 +47,7 @@ function BookingDynamicsPage() {
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
+                setLoader(false)
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 2) {
                         toast.error("В этот день нет вылета данного рейса или временные границы некорректны")
@@ -137,7 +141,12 @@ function BookingDynamicsPage() {
                     </form>
                 </div>
             </div>
-            <Chart x={x} y={y} keys={['Динамика']} title={title}/>
+            {loader ? <Loader/> : <></>}
+            {x && y ?
+                <Chart x={x} y={y} keys={['Динамика']} title={title}/>
+                :
+                <></>
+            }
         </>
     );
 }
