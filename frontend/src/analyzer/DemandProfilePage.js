@@ -48,6 +48,8 @@ function DemandProfilePage() {
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 2) {
                         console.log('В этот день нет вылета данного рейса или временные границы некорректны')
+                    } else {
+                        console.log("Неизвестная ошибка")
                     }
                 } else {
                     let newArr = []

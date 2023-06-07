@@ -39,13 +39,14 @@ function BookingDynamicsPage() {
         if (inputDateEnd.current.value) {
             responseBody.period_end = inputDateEnd.current.value;
         }
-        console.log(responseBody)
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 2) {
                         console.log("В этот день нет вылета данного рейса или временные границы некорректны")
+                    } else {
+                        console.log("Неизвестная ошибка")
                     }
                 } else {
                     const d = response.data

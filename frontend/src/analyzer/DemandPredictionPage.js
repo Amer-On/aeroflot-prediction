@@ -46,6 +46,8 @@ function DemandPredictionPage() {
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 3) {
                         console.log('В этот день нет вылета данного рейса')
+                    } else {
+                        console.log("Неизвестная ошибка")
                     }
                 } else {
                     let newArr = []
