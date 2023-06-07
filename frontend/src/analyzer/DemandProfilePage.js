@@ -1,16 +1,12 @@
-import Analyzer from "./components/Analyzer";
 import Chart from "./components/Chart";
 import {useRef, useState} from "react";
 import flight from './components/flight.json'
 import axios from "axios";
 
 
-
 function DemandProfilePage() {
-    let title = 'Профиль спроса'
-
+    let title = 'Профиль спроса';
     const [flights, setFlights] = useState(flight["SVO-AER"]);
-    const [data, setData] = useState(undefined);
     const [x, setX] = useState(undefined);
     const [y, setY] = useState(undefined);
 
@@ -47,16 +43,20 @@ function DemandProfilePage() {
         if (inputPeriod.current.value) {
             responseBody.period = inputPeriod.current.value
         }
-        console.log(responseBody)
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
-                let newArr = []
-                // newArr.push(response.data.fourier_profile)
-                newArr.push(response.data.profile)
-                setY(newArr)
-                setX(Array.from({ length: response.data.profile.length}, (value, index) => index))
-
-                console.log(response)
+                if (response.data.status === 'error') {
+                    if (response.data.error_code === 2) {
+                        console.log('В этот день нет вылета данного рейса или временные границы некорректны')
+                    } else {
+                        console.log("Неизвестная ошибка")
+                    }
+                } else {
+                    let newArr = []
+                    newArr.push(response.data.profile)
+                    setY(newArr)
+                    setX(Array.from({length: response.data.profile.length}, (value, index) => index))
+                }
             }
         ).catch(e => console.log(e))
     }
@@ -116,12 +116,12 @@ function DemandProfilePage() {
                         <div className='d-form'>
                             <div className='date date-start'>
                                 <label htmlFor='start'>Дата начала</label><br/>
-                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2022-01-01"
+                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
                                        ref={inputDateStart}/>
                             </div>
                             <div className='date date-end'>
                                 <label htmlFor='start'>Дата окончания</label><br/>
-                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2022-01-01"
+                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
                                        ref={inputDateEnd}/>
                             </div>
                         </div>

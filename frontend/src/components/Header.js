@@ -55,13 +55,15 @@ function Header(props) {
                 </ul>
                 {props.isLoginPage ? <></> :
                     isAuthenticated ?
-                            (<button className="auth-btn" onClick={onSubmitHandler}><p>Выйти</p></button>)
-                            :
+                        (<button className="auth-btn" onClick={onSubmitHandler}><p>Выйти</p></button>)
+                        :
+                        isAuthenticated === undefined ?
                             (
-                                <Link to='/login'>
-                                    <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
-                                </Link>
-                            )
+                                <></>
+                            ) :
+                            <Link to='/login'>
+                                <button className="auth-btn"><p>АВТОРИЗАЦИЯ</p></button>
+                            </Link>
                 }
             </div>
         </div>

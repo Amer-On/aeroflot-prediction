@@ -6,7 +6,6 @@ import axios from "axios";
 function DemandPredictionPage() {
     let title = 'Предсказание спроса'
     const [flights, setFlights] = useState(flight["SVO-AER"]);
-    const [data, setData] = useState(undefined);
     const [x, setX] = useState(undefined);
     const [y, setY] = useState(undefined);
 
@@ -44,11 +43,19 @@ function DemandPredictionPage() {
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
-                let newArr = []
-                newArr.push(response.data.values)
-                // process response
-                setX(response.data.date)
-                setY(newArr)
+                if (response.data.status === 'error') {
+                    if (response.data.error_code === 3) {
+                        console.log('В этот день нет вылета данного рейса')
+                    } else {
+                        console.log("Неизвестная ошибка")
+                    }
+                } else {
+                    let newArr = []
+                    newArr.push(response.data.values)
+                    // process response
+                    setX(response.data.date)
+                    setY(newArr)
+                }
             }
         ).catch(e => console.log(e))
     }

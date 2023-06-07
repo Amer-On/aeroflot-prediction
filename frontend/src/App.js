@@ -17,6 +17,8 @@ function App(props) {
                 (response) => {
                     if (response.data.status === 'ok') {
                         setIsAuthenticated(true);
+                    } else {
+                        setIsAuthenticated(false);
                     }
                 }
             ).catch(

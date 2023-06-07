@@ -6,7 +6,6 @@ import flight from './components/flight.json'
 function SeasonDetectionPage() {
     let title = 'Определение сезонности'
     const [flights, setFlights] = useState(flight["SVO-AER"]);
-    const [data, setData] = useState(undefined);
     const [keys, setKeys] = useState(undefined);
 
     const inputRoute = useRef(null);
@@ -41,20 +40,27 @@ function SeasonDetectionPage() {
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
-                // process response
-                const d = response.data.data;
-                const yArr = []
-                const keys = []
+                if (response.data.status === 'error') {
+                    if (response.data.error_code === 2) {
+                        console.log("В этот день нет вылета данного рейса или временные границы некорректны")
+                    } else {
+                        console.log("Неизвестная ошибка")
+                    }
+                } else {
+                    const d = response.data.data;
+                    const yArr = []
+                    const keys = []
 
-                for (const idx in d) {
-                    const x = d[idx]
-                    yArr.push(x['values'])
-                    keys.push(idx)
+                    for (const idx in d) {
+                        const x = d[idx]
+                        yArr.push(x['values'])
+                        keys.push(idx)
+                    }
+                    keys[keys.length - 1] = 'Сезонность'
+                    setX(d['large_changes']['indexes'])
+                    setY(yArr)
+                    setKeys(keys)
                 }
-                keys[keys.length - 1] = 'Сезонность'
-                setX(d['large_changes']['indexes'])
-                setY(yArr)
-                setKeys(keys)
             }
         ).catch(e => console.log(e))
     }
