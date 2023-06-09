@@ -4,7 +4,7 @@ from fastapi import (
     Body,
     Request,
 )
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from ..ml.models import (
     report_dynamic,
@@ -96,6 +96,8 @@ async def dynamic(report: DynamicReport = Body()):
 
         fourier = (date_finish - date_start).days // 5
     else:
+        date_start = date - timedelta(days=30)
+        date_finish = date + timedelta(days=1)
         fourier = 6
 
     try:
@@ -103,8 +105,8 @@ async def dynamic(report: DynamicReport = Body()):
             seg_class_code=report.seg_class_code,
             flt_num=int(report.flt_num),
             date=date,
-            period_start=report.period_start,
-            period_end=report.period_end,
+            period_start=date_start,
+            period_end=date_finish,
             fourier=fourier,
         )
         return DynamicResponse(

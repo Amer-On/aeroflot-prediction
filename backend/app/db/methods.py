@@ -1,4 +1,3 @@
-import psycopg2
 import asyncpg
 from datetime import datetime
 from .config_db import *
@@ -97,12 +96,17 @@ async def fetch_ml_data_for_seasons_db(
 ):
     return await conn.fetch(
             '''SELECT dtd, pass_bk FROM "data_for_ml" 
-            WHERE seg_class_code = $1 AND flt_num = $2 AND 
-            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $3 AND $4 AND
-            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $5 AND $6''',
+            WHERE seg_class_code = $1 AND flt_num = $2 AND ((
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) = $3 AND 
+            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) >= $5) OR (
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) = $4 AND 
+            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) <= $6) OR (
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $7 AND $8))
+            ''',
             seg_class_code, flt_num, 
             date_start.month, date_finish.month,
-            date_start.day, date_finish.day
+            date_start.day, date_finish.day,
+            date_start.month + 1, date_finish.month - 1,
     )
 
 
@@ -116,12 +120,16 @@ async def fetch_ml_data_for_profile_db(
 ):
     return await conn.fetch(
             '''SELECT dat_s, pass_bk FROM "data_for_ml" 
-            WHERE seg_class_code = $1 AND flt_num = $2 AND 
-            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $3 AND $4 AND
-            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $5 AND $6''',
+            WHERE seg_class_code = $1 AND flt_num = $2 AND ((
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) = $3 AND 
+            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) >= $5) OR (
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) = $4 AND 
+            EXTRACT(DAY FROM TO_DATE(dat_s, 'YYYY-MM-DD')) <= $6) OR (
+            EXTRACT(MONTH FROM TO_DATE(dat_s, 'YYYY-MM-DD')) BETWEEN $7 AND $8))''',
             seg_class_code, flt_num, 
             date_start.month, date_finish.month,
-            date_start.day, date_finish.day
+            date_start.day, date_finish.day,
+            date_start.month + 1, date_finish.month - 1,
     )
 
 
@@ -131,11 +139,16 @@ async def fetch_ml_data_for_dynamic_db(
     seg_class_code: str, 
     flt_num: int, 
     date: datetime,
+    date_start: datetime,
+    date_finish: datetime,
 ):
     return await conn.fetch(
             '''SELECT dat_s, pass_bk, dtd FROM "data_for_ml" 
-            WHERE seg_class_code = $1 AND flt_num = $2 AND dep_day = $3 AND dep_month = $4 AND dep_year = $5''',
-            seg_class_code, flt_num, date.day, date.month, date.year
+            WHERE seg_class_code = $1 AND flt_num = $2 AND dep_day = $3 AND dep_month = $4 AND dep_year = $5 
+            AND TO_DATE(dat_s, 'YYYY-MM-DD') BETWEEN $6 AND $7
+            ''',
+            seg_class_code, flt_num, date.day, date.month, date.year,
+            date_start, date_finish
     )
 
 
