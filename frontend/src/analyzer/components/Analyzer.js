@@ -83,17 +83,17 @@ function Analyzer(props) {
                             </select>
                         </div>
                         <div className='d-form'>
-                            <div className='date date-start'>
-                                <label htmlFor='start'>Начало</label><br/>
-                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
+                            <div className='date date-dep'>
+                                <label htmlFor='dep'>Начало</label><br/>
+                                <input type="date" id="dep" name="trip-dep" min="2017-06-04" max="2020-01-01"
                                        required ref={inputDateStart}/>
                             </div>
-                            <div className='date date-end'>
-                                <label htmlFor='end'>Конец</label><br/>
-                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
+                            <div className='date date-start'>
+                                <label htmlFor='start'>Конец</label><br/>
+                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
                                        required ref={inputDateEnd}/>
                             </div>
-                            <div className='date date-start'>
+                            <div className='date date-end'>
                                 <label htmlFor='end'>Конец</label><br/>
                                 <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
                                        required ref={inputDateEnd}/>

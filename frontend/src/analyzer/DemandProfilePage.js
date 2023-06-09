@@ -4,7 +4,7 @@ import flight from './components/flight.json'
 import axios from "axios";
 import {toast} from "react-toastify";
 import Loader from "../components/Loader";
-
+import "./analayzerstyle/SeasonDP.css";
 
 function DemandProfilePage() {
     let title = 'Профиль спроса';
@@ -20,6 +20,12 @@ function DemandProfilePage() {
     const inputDateEnd = useRef(null);
     const inputPeriod = useRef(null);
 
+    const itemsDay = [];
+    const itemsMon = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',];
+
+    for (let i = 1; i <= 31; i++) {
+        itemsDay.push(i);
+    }
 
     function handleRouteChange(e) {
         setFlights(flight[e.target.value])
@@ -124,13 +130,25 @@ function DemandProfilePage() {
                         <div className='d-form'>
                             <div className='date date-start'>
                                 <label htmlFor='start'>Дата начала</label><br/>
-                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
-                                       ref={inputDateStart}/>
+                                <select className="d-start-d">
+                                    <option disabled selected="selected">-Д-</option>
+                                     {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
+                                 <select className="d-start-m">
+                                     <option disabled selected="selected">-М-</option>
+                                     {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
                             </div>
                             <div className='date date-end'>
                                 <label htmlFor='start'>Дата окончания</label><br/>
-                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
-                                       ref={inputDateEnd}/>
+                                <select className="d-end-d">
+                                     <option disabled selected="selected">-Д-</option>
+                                     {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
+                                <select className="d-end-m">
+                                     <option disabled selected="selected">-М-</option>
+                                     {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
                             </div>
                         </div>
                         <div className='four-form'>
