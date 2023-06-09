@@ -5,6 +5,7 @@ import flight from './components/flight.json'
 import {toast} from "react-toastify";
 import Loader from "../components/Loader";
 import "./analayzerstyle/SeasonDP.css";
+import {itemsMon, itemsDay, get_mon_id} from "./helper";
 
 function SeasonDetectionPage() {
     let title = 'Определение сезонности'
@@ -15,17 +16,13 @@ function SeasonDetectionPage() {
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
     const inputSegClasCode = useRef(null);
-    const inputDateStart = useRef(null);
-    const inputDateEnd = useRef(null);
     const [x, setX] = useState(undefined);
     const [y, setY] = useState(undefined);
 
-    const itemsDay = [];
-    const itemsMon = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',];
-
-    for (let i = 1; i <= 31; i++) {
-        itemsDay.push(i);
-    }
+    const inputDayStart = useRef(undefined);
+    const inputMonthStart = useRef(undefined);
+    const inputDayEnd = useRef(undefined);
+    const inputMonthEnd = useRef(undefined);
 
     function handleRouteChange(e) {
         setFlights(flight[e.target.value])
@@ -43,11 +40,14 @@ function SeasonDetectionPage() {
         responseBody.seg_class_code = inputSegClasCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
 
-        if (inputDateStart.current.value) {
-            responseBody.date_start = inputDateStart.current.value;
+        if (inputDayStart.current.value !== '-Д-' && inputMonthStart.current.value !== '-М-') {
+            responseBody.date_start = [2018, get_mon_id(inputMonthStart.current.value),
+                inputDayStart.current.value].join('-')
         }
-        if (inputDateEnd.current.value) {
-            responseBody.date_end = inputDateEnd.current.value;
+
+        if (inputDayEnd.current.value !== '-Д-' && inputMonthEnd.current.value !== "-М-") {
+            responseBody.date_finish = [2018, get_mon_id(inputMonthEnd.current.value),
+                inputDayEnd.current.value].join('-')
         }
 
         axios.post(route, responseBody, {withCredentials: true}).then(
@@ -136,22 +136,22 @@ function SeasonDetectionPage() {
                         <div className='d-form'>
                             <div className='date date-start'>
                                 <label htmlFor='start'>Начало</label><br/>
-                                <select className="d-start-d">
+                                <select className="d-start-d" ref={inputDayStart}>
                                     <option disabled selected="selected">-Д-</option>
                                      {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
                                  </select>
-                                 <select className="d-start-m">
+                                 <select className="d-start-m" ref={inputMonthStart}>
                                      <option disabled selected="selected">-М-</option>
                                      {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
                                  </select>
                             </div>
                             <div className='date date-end'>
                                 <label htmlFor='end'>Конец</label><br/>
-                                <select className="d-end-d">
+                                <select className="d-end-d" ref={inputDayEnd}>
                                      <option disabled selected="selected">-Д-</option>
                                      {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
                                  </select>
-                                <select className="d-end-m">
+                                <select className="d-end-m" ref={inputMonthEnd}>
                                      <option disabled selected="selected">-М-</option>
                                      {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
                                  </select>

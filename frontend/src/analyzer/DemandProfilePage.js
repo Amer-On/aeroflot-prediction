@@ -5,6 +5,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import Loader from "../components/Loader";
 import "./analayzerstyle/SeasonDP.css";
+import {itemsMon, itemsDay, get_mon_id} from "./helper";
 
 function DemandProfilePage() {
     let title = 'Профиль спроса';
@@ -16,16 +17,12 @@ function DemandProfilePage() {
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
     const inputSegClassCode = useRef(null);
-    const inputDateStart = useRef(null);
-    const inputDateEnd = useRef(null);
+    const inputDayStart = useRef(undefined);
+    const inputMonthStart = useRef(undefined);
+    const inputDayEnd = useRef(undefined);
+    const inputMonthEnd = useRef(undefined);
     const inputPeriod = useRef(null);
 
-    const itemsDay = [];
-    const itemsMon = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',];
-
-    for (let i = 1; i <= 31; i++) {
-        itemsDay.push(i);
-    }
 
     function handleRouteChange(e) {
         setFlights(flight[e.target.value])
@@ -43,11 +40,14 @@ function DemandProfilePage() {
         responseBody.seg_class_code = inputSegClassCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
 
-        if (inputDateStart.current.value) {
-            responseBody.date_start = inputDateStart.current.value
+        if (inputDayStart.current.value !== '-Д-' && inputMonthStart.current.value !== '-М-') {
+            responseBody.date_start = [2018, get_mon_id(inputMonthStart.current.value),
+                inputDayStart.current.value].join('-')
         }
-        if (inputDateEnd.current.value) {
-            responseBody.date_finish = inputDateEnd.current.value
+
+        if (inputDayEnd.current.value !== '-Д-' && inputMonthEnd.current.value !== "-М-") {
+            responseBody.date_finish = [2018, get_mon_id(inputMonthEnd.current.value),
+                inputDayEnd.current.value].join('-')
         }
 
         if (inputPeriod.current.value) {
@@ -130,25 +130,25 @@ function DemandProfilePage() {
                         <div className='d-form'>
                             <div className='date date-start'>
                                 <label htmlFor='start'>Дата начала</label><br/>
-                                <select className="d-start-d">
+                                <select className="d-start-d" ref={inputDayStart}>
                                     <option disabled selected="selected">-Д-</option>
-                                     {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
-                                 </select>
-                                 <select className="d-start-m">
-                                     <option disabled selected="selected">-М-</option>
-                                     {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
-                                 </select>
+                                    {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
+                                <select className="d-start-m" ref={inputMonthStart}>
+                                    <option disabled selected="selected">-М-</option>
+                                    {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
                             </div>
                             <div className='date date-end'>
                                 <label htmlFor='start'>Дата окончания</label><br/>
-                                <select className="d-end-d">
-                                     <option disabled selected="selected">-Д-</option>
-                                     {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
-                                 </select>
-                                <select className="d-end-m">
-                                     <option disabled selected="selected">-М-</option>
-                                     {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
-                                 </select>
+                                <select className="d-end-d" ref={inputDayEnd}>
+                                    <option disabled selected="selected">-Д-</option>
+                                    {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
+                                <select className="d-end-m" ref={inputMonthEnd}>
+                                    <option disabled selected="selected">-М-</option>
+                                    {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
                             </div>
                         </div>
                         <div className='four-form'>
