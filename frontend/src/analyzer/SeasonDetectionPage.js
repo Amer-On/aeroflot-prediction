@@ -4,6 +4,7 @@ import {useRef, useState} from "react";
 import flight from './components/flight.json'
 import {toast} from "react-toastify";
 import Loader from "../components/Loader";
+import "./analayzerstyle/SeasonDP.css";
 
 function SeasonDetectionPage() {
     let title = 'Определение сезонности'
@@ -79,7 +80,7 @@ function SeasonDetectionPage() {
             <div className='form'>
                 <h1 className='main-h1'>{title}</h1>
                 <div className='input'>
-                    <form className='main-form' onSubmit={submitFormHandler}>
+                    <form className='main-form SDP-form' onSubmit={submitFormHandler}>
                         <div className='f-form'>
                             <select onChange={handleRouteChange} ref={inputRoute}>
                                 <option disabled>-- Выберите направление --</option>

@@ -4,6 +4,7 @@ import flight from './components/flight.json'
 import axios from "axios";
 import {toast} from 'react-toastify';
 import Loader from "../components/Loader";
+import "./analayzerstyle/DemandPredictionPage.css";
 
 function DemandPredictionPage() {
     let title = 'Предсказание спроса'
@@ -128,12 +129,12 @@ function DemandPredictionPage() {
                                        required ref={inputDepartureDate}/>
                             </div>
                         </div>
-                        <div className='four-form'>
+                        <div className='four-form ff-dpp1'>
                             <label>Дней до вылета от</label><br/>
                             <input type='number' defaultValue={-1} min={-1} max={365}
                                    ref={inputDtdStart}/>
                         </div>
-                        <div className='four-form'>
+                        <div className='four-form ff-dpp1'>
                             <label>Дней до вылета до</label><br/>
                             <input type='number' defaultValue={30} min={-1} max={365}
                                    ref={inputDtdEnd}/>

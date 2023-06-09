@@ -27,14 +27,18 @@
 }
 
 .s-form select{
-    width: 150px;
-}
-
-.t-form select{
     width: 80px;
 }
 
+.t-form select{
+    width: 40px;
+}
+
 .d-form{
+    margin-left: 10px;
+}
+
+.d-form .date:nth-child(3){
     margin-left: 10px;
 }
 
