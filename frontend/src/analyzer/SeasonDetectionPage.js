@@ -20,6 +20,13 @@ function SeasonDetectionPage() {
     const [x, setX] = useState(undefined);
     const [y, setY] = useState(undefined);
 
+    const itemsDay = [];
+    const itemsMon = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',];
+
+    for (let i = 1; i <= 31; i++) {
+        itemsDay.push(i);
+    }
+
     function handleRouteChange(e) {
         setFlights(flight[e.target.value])
     }
@@ -128,14 +135,26 @@ function SeasonDetectionPage() {
                         </div>
                         <div className='d-form'>
                             <div className='date date-start'>
-                                <label htmlFor='end'>Начало</label><br/>
-                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
-                                       ref={inputDateStart}/>
+                                <label htmlFor='start'>Начало</label><br/>
+                                <select className="d-start-d">
+                                    <option disabled selected="selected">-Д-</option>
+                                     {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
+                                 <select className="d-start-m">
+                                     <option disabled selected="selected">-М-</option>
+                                     {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
                             </div>
-                            <div className='date date-start'>
+                            <div className='date date-end'>
                                 <label htmlFor='end'>Конец</label><br/>
-                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
-                                       ref={inputDateEnd}/>
+                                <select className="d-end-d">
+                                     <option disabled selected="selected">-Д-</option>
+                                     {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
+                                <select className="d-end-m">
+                                     <option disabled selected="selected">-М-</option>
+                                     {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                 </select>
                             </div>
                         </div>
                         <button className='predict-btn' type='submit'><p>сгенерировать</p></button>
