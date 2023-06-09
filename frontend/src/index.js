@@ -23,7 +23,7 @@ root.render(
                         <Route path="/home" element={<Home/>}/>
                     </Route>
 
-                    <Route path='/' element={<App requiresLogin={true}/>}>
+                    <Route path='/' element={<App requiresLogin={false}/>}>
                         <Route path='/booking-dynamic' element={<BookingDynamicsPage/>}/>
                         <Route path='/demand-profile' element={<DemandProfilePage/>}/>
                         <Route path='/demand-prediction' element={<DemandPredictionPage/>}/>

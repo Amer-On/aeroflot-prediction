@@ -1,4 +1,16 @@
 .SDP-form{
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.d-end-d{
+    max-width: 50px;
+}
+
+.d-start-m{
+    margin-left: 5px;
+}
+
+.d-end-m{
+    margin-left: 5px;
 }
