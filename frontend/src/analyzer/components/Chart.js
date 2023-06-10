@@ -1,7 +1,6 @@
 import './Main.css';
 import React from 'react';
 import {GraphPlotly} from "./GraphPlotly";
-// const GraphPlotly = React.lazy(() => import("./GraphPlotly"))
 
 
 function Chart(props) {
