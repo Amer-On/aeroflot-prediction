@@ -163,7 +163,7 @@ function SeasonDetectionPage() {
             </div>
             {loader ? <Loader/> : <></>}
             {x && y ?
-                <Chart x={x} y={y} keys={keys} title={title}/>
+                <Chart x={x} y={y} keys={keys} title={title} xlabel={'Дней до вылета'}/>
                 :
                 <></>
             }
