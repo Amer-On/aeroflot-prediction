@@ -145,7 +145,7 @@ function DemandPredictionPage() {
             </div>
             {loader ? <Loader/> : <></>}
             {x && y ?
-                <Chart x={x} y={y} keys={['Предсказание']} title={title}/>
+                <Chart x={x} y={y} keys={['Предсказание']} title={title} xlabel={'Дата'}/>
                 :
                 <></>
             }

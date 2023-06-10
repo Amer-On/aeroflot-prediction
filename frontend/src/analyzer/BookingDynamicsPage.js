@@ -143,7 +143,7 @@ function BookingDynamicsPage() {
             </div>
             {loader ? <Loader/> : <></>}
             {x && y ?
-                <Chart x={x} y={y} keys={['Динамика']} title={title}/>
+                <Chart x={x} y={y} keys={['Динамика']} title={title} ylabel={'Спать'}/>
                 :
                 <></>
             }

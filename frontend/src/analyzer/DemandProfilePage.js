@@ -162,7 +162,7 @@ function DemandProfilePage() {
             </div>
             {loader ? <Loader/> : <></>}
             {x && y ?
-                <Chart x={x} y={y} keys={['Профиль спроса']} title={title}/>
+                <Chart x={x} y={y} keys={['Профиль спроса']} title={title} xlabel={'Дней до вылета'}/>
                 :
                 <></>
             }
