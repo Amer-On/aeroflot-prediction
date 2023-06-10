@@ -68,7 +68,7 @@ def fit_model(df: pd.DataFrame, filepath: Path = MODELS_DEFAULT_PATH,
             logging.info(f'[ML] Model for Seg Class Code {code} finished training and was saved to {model_file}')
 
 
-def predict(flight: pd.DataFrame, class_code: str, dep_day: int, dep_month: int, dep_year: int, dtd_start: int = -1, dtd_end: int = 30):
+def predict(df: pd.DataFrame, class_code: str, dep_day: int, dep_month: int, dep_year: int, dtd_start: int = -1, dtd_end: int = 30):
     """
     Model is read from file and predicts from given dataframe
 
@@ -83,18 +83,34 @@ def predict(flight: pd.DataFrame, class_code: str, dep_day: int, dep_month: int,
     :return:
     """
 
-    dtd = list(range(dtd_start, dtd_end + 1))
-    flight = pd.concat([flight] * len(dtd))
-    flight['DTD'] = dtd
-    flight = flight[
-        ['FLT_NUM', 'SEG_ORIG', 'SEG_DEST', 'DTD', 'hour_dep', 'hour_arr', 'minute_dep', 'minute_arr', 'DEP_DAY',
-         'DEP_MONTH', 'DEP_YEAR']].sort_values('DTD').reset_index(drop=True)
-    model = CatBoostRegressor().load_model(f'app/ml/models/{class_code}_CLASS')
+    flight_list = []
 
-    flight['PASS_BK'] = model.predict(flight).round().astype(int)
-    flight[flight['PASS_BK']<0] = 0
-    # TODO: OPTIMIZE
-    start = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_end)
-    end = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_start)
-    flight['DAT_S'] = pd.date_range(start=start, end=end)[::-1]
-    return {'date': list(str(el)[:10] for el in flight['DAT_S'].values), 'values': [int(el) for el in flight['PASS_BK'].values]}
+    class_codes = ['B','C','D','E','G','H','I','J','K','L','M','N','O','P','Q','R','T','U','X','Y','Z']
+
+    business_code = ['J','C','D','I','Z','O']
+
+    for code in class_codes:
+        dtd = list(range(dtd_start, dtd_end + 1))
+        flight = pd.concat([df] * len(dtd))
+        flight['DTD'] = dtd
+        flight = flight[
+            ['FLT_NUM', 'SEG_ORIG', 'SEG_DEST', 'DTD', 'hour_dep', 'hour_arr', 'minute_dep', 'minute_arr', 'DEP_DAY',
+             'DEP_MONTH', 'DEP_YEAR']].sort_values('DTD').reset_index(drop=True)
+        model = CatBoostRegressor().load_model(f'app/ml/models/{code}_CLASS')
+
+        flight['PASS_BK'] = model.predict(flight).round().astype(int)
+        flight[flight['PASS_BK']<0] = 0
+        # TODO: OPTIMIZE
+        start = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_end)
+        end = pd.to_datetime(datetime(dep_year, dep_month, dep_day)) - pd.offsets.Day(dtd_start)
+        flight['DAT_S'] = pd.date_range(start=start, end=end)[::-1]
+        flight['SEG_CLASS_CODE'] = code
+        flight_list.append(flight)
+
+    flight = pd.concat(flight_list)
+    business  = flight.query('SEG_CLASS_CODE in @business_code')
+    econom = flight.query('SEG_CLASS_CODE not in @business_code')
+    business = business.groupby('DTD')['PASS_BK'].sum().sort_index(ascending = False)
+    econom = econom.groupby('DTD')['PASS_BK'].sum().sort_index(ascending = False)
+    return {'data': {'business_index' : list(business.index), 'business_values': [int(el) for el in business.values],
+    'econom_index' : list(econom.index), 'econom_values': [int(el) for el in econom.values]}}
