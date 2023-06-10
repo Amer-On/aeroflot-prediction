@@ -6,7 +6,8 @@ export function GraphPlotly(props) {
     const data = props.y.map((ySeries, i) => ({
         y: ySeries,
         x: props.x,
-        mode: 'lines',
+        type: 'line',
+        fill: 'tonexty',
         name: props.keys[i]
     }));
 
@@ -18,7 +19,7 @@ export function GraphPlotly(props) {
         plot_bgcolor: 'rgba(0,0,0,0)',
 
         xaxis: {
-            rangebreaks: [0, 100],
+            type: 'category',
             title: {
                 text: props.xlabel,
                 font: {

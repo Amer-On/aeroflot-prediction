@@ -2,52 +2,58 @@ import axios from "axios";
 import Chart from "./components/Chart";
 import {useRef, useState} from "react";
 import flight from './components/flight.json'
-import {toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {toast} from "react-toastify";
 import Loader from "../components/Loader";
-import "./analayzerstyle/BookingDP.css";
+import "./analayzerstyle/SeasonDP.css";
+import {itemsMon, itemsDay, get_mon_id} from "./helper";
+// DEPRECATED
 
-function BookingDynamicsPage() {
-    let title = 'Динамика бронирования'
+function SeasonDetectionPage() {
+    let title = 'Определение сезонности'
     const [flights, setFlights] = useState(flight["SVO-AER"]);
+    const [keys, setKeys] = useState(undefined);
     const [loader, setLoader] = useState(false);
 
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
     const inputSegClasCode = useRef(null);
-    const inputDepartureDate = useRef(null);
-    const inputDateStart = useRef(null);
-    const inputDateEnd = useRef(null);
     const [x, setX] = useState(undefined);
     const [y, setY] = useState(undefined);
+
+    const inputDayStart = useRef(undefined);
+    const inputMonthStart = useRef(undefined);
+    const inputDayEnd = useRef(undefined);
+    const inputMonthEnd = useRef(undefined);
 
     function handleRouteChange(e) {
         setFlights(flight[e.target.value])
     }
 
     const responseBody = {
-        'seg_class_code': '', 'flt_num': 0, 'dep_date': undefined
+        'seg_class_code': '', 'flt_num': 0
     }
 
-    const route = '/api/ml/dynamic'
+    const route = '/api/ml/seasons';
 
     function submitFormHandler(event) {
         event.preventDefault();
-        setLoader(true)
+        setLoader(true);
         responseBody.seg_class_code = inputSegClasCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
-        responseBody.dep_date = inputDepartureDate.current.value;
 
-        if (inputDateStart.current.value) {
-            responseBody.period_start = inputDateStart.current.value;
+        if (inputDayStart.current.value !== '-Д-' && inputMonthStart.current.value !== '-М-') {
+            responseBody.date_start = [2018, get_mon_id(inputMonthStart.current.value),
+                inputDayStart.current.value].join('-')
         }
-        if (inputDateEnd.current.value) {
-            responseBody.period_end = inputDateEnd.current.value;
+
+        if (inputDayEnd.current.value !== '-Д-' && inputMonthEnd.current.value !== "-М-") {
+            responseBody.date_finish = [2018, get_mon_id(inputMonthEnd.current.value),
+                inputDayEnd.current.value].join('-')
         }
 
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
-                setLoader(false)
+                setLoader(false);
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 2) {
                         toast.error("В этот день нет вылета данного рейса или временные границы некорректны")
@@ -55,11 +61,19 @@ function BookingDynamicsPage() {
                         toast.error("Неизвестная ошибка")
                     }
                 } else {
-                    const d = response.data
-                    setX(d['indexes'])
-                    const arrY = []
-                    arrY.push(d['flight_dynamic'])
-                    setY(arrY)
+                    const d = response.data.data;
+                    const yArr = []
+                    const keys = []
+
+                    for (const idx in d) {
+                        const x = d[idx]
+                        yArr.push(x['values'])
+                        keys.push(idx)
+                    }
+                    keys[keys.length - 1] = 'Сезонность'
+                    setX(d['large_changes']['indexes'])
+                    setY(yArr)
+                    setKeys(keys)
                 }
             }
         ).catch(e => {
@@ -74,7 +88,7 @@ function BookingDynamicsPage() {
             <div className='form'>
                 <h1 className='main-h1'>{title}</h1>
                 <div className='input'>
-                    <form className='main-form BDP-form' onSubmit={submitFormHandler}>
+                    <form className='main-form SDP-form' onSubmit={submitFormHandler}>
                         <div className='f-form'>
                             <select onChange={handleRouteChange} ref={inputRoute}>
                                 <option disabled>-- Выберите направление --</option>
@@ -122,19 +136,26 @@ function BookingDynamicsPage() {
                         </div>
                         <div className='d-form'>
                             <div className='date date-start'>
-                                <label htmlFor='start'>Дата вылета</label><br/>
-                                <input type="date" id="start" name="trip-start" min="2017-06-04" max="2020-01-01"
-                                       required ref={inputDepartureDate}/>
+                                <label htmlFor='start'>Начало</label><br/>
+                                <select className="d-start-d" ref={inputDayStart}>
+                                    <option disabled selected="selected">-Д-</option>
+                                    {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
+                                <select className="d-start-m" ref={inputMonthStart}>
+                                    <option disabled selected="selected">-М-</option>
+                                    {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
                             </div>
                             <div className='date date-end'>
-                                <label htmlFor='end'>Начало</label><br/>
-                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
-                                       ref={inputDateStart}/>
-                            </div>
-                            <div className='date date-start'>
                                 <label htmlFor='end'>Конец</label><br/>
-                                <input type="date" id="end" name="trip-end" min="2017-06-04" max="2020-01-01"
-                                       ref={inputDateEnd}/>
+                                <select className="d-end-d" ref={inputDayEnd}>
+                                    <option disabled selected="selected">-Д-</option>
+                                    {itemsDay.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
+                                <select className="d-end-m" ref={inputMonthEnd}>
+                                    <option disabled selected="selected">-М-</option>
+                                    {itemsMon.map((item, index) => (<option key={index}>{item}</option>))}
+                                </select>
                             </div>
                         </div>
                         <button className='predict-btn' type='submit'><p>сгенерировать</p></button>
@@ -143,7 +164,7 @@ function BookingDynamicsPage() {
             </div>
             {loader ? <Loader/> : <></>}
             {x && y ?
-                <Chart x={x} y={y} keys={['Динамика']} title={title} xlabel={'Дней до вылета'}/>
+                <Chart x={x} y={y} keys={keys} title={title} xlabel={'Дней до вылета'}/>
                 :
                 <></>
             }
@@ -151,5 +172,4 @@ function BookingDynamicsPage() {
     );
 }
 
-
-export default BookingDynamicsPage;
+export default SeasonDetectionPage;

@@ -62,7 +62,8 @@ async def seasons(report: SeasonsReport = Body()):
         )
 
         return SeasonsResponse(data=seasons)
-    except:
+    except Exception as e:
+        print(e)
         return ErrorResponse(
             message="This flight with the selected data cannot be analyzed",
             error_code=ErrorCode.ANALYZE_ERROR
@@ -190,7 +191,7 @@ async def profile(report: ProfileReport = Body()):
         )
 
         return ProfileResponse(profile=profile, fourier_profile=fourier_profile)
-    except:
+    except :
         return ErrorResponse(
             message="This flight with the selected data cannot be analyzed",
             error_code=ErrorCode.ANALYZE_ERROR

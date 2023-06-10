@@ -53,6 +53,7 @@ function SeasonDetectionPage() {
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
                 setLoader(false);
+                console.log(response)
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 2) {
                         toast.error("В этот день нет вылета данного рейса или временные границы некорректны")
@@ -60,19 +61,9 @@ function SeasonDetectionPage() {
                         toast.error("Неизвестная ошибка")
                     }
                 } else {
-                    const d = response.data.data;
-                    const yArr = []
-                    const keys = []
-
-                    for (const idx in d) {
-                        const x = d[idx]
-                        yArr.push(x['values'])
-                        keys.push(idx)
-                    }
-                    keys[keys.length - 1] = 'Сезонность'
-                    setX(d['large_changes']['indexes'])
-                    setY(yArr)
-                    setKeys(keys)
+                    setX(response.data.data.indexes)
+                    setY([response.data.data.values])
+                    setKeys('kak')
                 }
             }
         ).catch(e => {
@@ -163,7 +154,7 @@ function SeasonDetectionPage() {
             </div>
             {loader ? <Loader/> : <></>}
             {x && y ?
-                <Chart x={x} y={y} keys={keys} title={title} xlabel={'Дней до вылета'}/>
+                <Chart x={x} y={y} keys={keys} title={title} xlabel={'Месяц день'}/>
                 :
                 <></>
             }

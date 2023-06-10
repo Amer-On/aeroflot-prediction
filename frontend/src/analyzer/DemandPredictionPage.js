@@ -16,7 +16,7 @@ function DemandPredictionPage() {
 
     const inputRoute = useRef(null);
     const inputFltNum = useRef(null);
-    const inputSegClasCode = useRef(null);
+    // const inputSegClasCode = useRef(null);
     const inputDepartureDate = useRef(null);
     const inputDtdStart = useRef(null);
     const inputDtdEnd = useRef(null);
@@ -28,7 +28,7 @@ function DemandPredictionPage() {
 
 
     const responseBody = {
-        'seg_class_code': '', 'flt_num': 0, 'dep_date': undefined
+        'seg_class_code': 'J', 'flt_num': 0, 'dep_date': undefined
     }
 
     const route = '/api/ml/predict'
@@ -36,7 +36,7 @@ function DemandPredictionPage() {
     function submitFormHandler(event) {
         event.preventDefault();
         setLoader(true)
-        responseBody.seg_class_code = inputSegClasCode.current.value;
+        // responseBody.seg_class_code = inputSegClasCode.current.value;
         responseBody.flt_num = inputFltNum.current.value;
         responseBody.dep_date = inputDepartureDate.current.value;
 
@@ -50,6 +50,7 @@ function DemandPredictionPage() {
         axios.post(route, responseBody, {withCredentials: true}).then(
             response => {
                 setLoader(false)
+                console.log(response)
                 if (response.data.status === 'error') {
                     if (response.data.error_code === 3) {
                         toast.error("В этот день нет вылета данного рейса")
@@ -58,9 +59,12 @@ function DemandPredictionPage() {
                     }
                 } else {
                     let newArr = []
-                    newArr.push(response.data.values)
+                    newArr.push(response.data.data.business_values)
+                    newArr.push(response.data.data.econom_values)
+
+                    // newArr.push(response.data.values)
                     // process response
-                    setX(response.data.date)
+                    setX(response.data.data.business_index)
                     setY(newArr)
                 }
             }
@@ -96,32 +100,32 @@ function DemandPredictionPage() {
                                 ) : ""}
                             </select>
                         </div>
-                        <div className='t-form'>
-                            <select ref={inputSegClasCode}>
-                                <option disabled>-- Выберите класс бронирования --</option>
-                                <option value="Z">Z</option>
-                                <option value="Y">Y</option>
-                                <option value="X">X</option>
-                                <option value="U">U</option>
-                                <option value="T">T</option>
-                                <option value="R">R</option>
-                                <option value="Q">Q</option>
-                                <option value="P">P</option>
-                                <option value="O">O</option>
-                                <option value="N">N</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                                <option value="K">K</option>
-                                <option value="J">J</option>
-                                <option value="I">I</option>
-                                <option value="H">H</option>
-                                <option value="G">G</option>
-                                <option value="E">E</option>
-                                <option value="D">D</option>
-                                <option value="C">C</option>
-                                <option value="B">B</option>
-                            </select>
-                        </div>
+                        {/*<div className='t-form'>*/}
+                        {/*    <select ref={inputSegClasCode}>*/}
+                        {/*        <option disabled>-- Выберите класс бронирования --</option>*/}
+                        {/*        <option value="Z">Z</option>*/}
+                        {/*        <option value="Y">Y</option>*/}
+                        {/*        <option value="X">X</option>*/}
+                        {/*        <option value="U">U</option>*/}
+                        {/*        <option value="T">T</option>*/}
+                        {/*        <option value="R">R</option>*/}
+                        {/*        <option value="Q">Q</option>*/}
+                        {/*        <option value="P">P</option>*/}
+                        {/*        <option value="O">O</option>*/}
+                        {/*        <option value="N">N</option>*/}
+                        {/*        <option value="M">M</option>*/}
+                        {/*        <option value="L">L</option>*/}
+                        {/*        <option value="K">K</option>*/}
+                        {/*        <option value="J">J</option>*/}
+                        {/*        <option value="I">I</option>*/}
+                        {/*        <option value="H">H</option>*/}
+                        {/*        <option value="G">G</option>*/}
+                        {/*        <option value="E">E</option>*/}
+                        {/*        <option value="D">D</option>*/}
+                        {/*        <option value="C">C</option>*/}
+                        {/*        <option value="B">B</option>*/}
+                        {/*    </select>*/}
+                        {/*</div>*/}
                         <div className='d-form'>
                             <div className='date date-start'>
                                 <label htmlFor='start'>Дата вылета</label><br/>
@@ -145,7 +149,7 @@ function DemandPredictionPage() {
             </div>
             {loader ? <Loader/> : <></>}
             {x && y ?
-                <Chart x={x} y={y} keys={['Предсказание']} title={title} xlabel={'Дата'}/>
+                <Chart x={x} y={y} keys={['Бизнес', "Эконом"]} title={title} xlabel={'Дней до вылета'}/>
                 :
                 <></>
             }

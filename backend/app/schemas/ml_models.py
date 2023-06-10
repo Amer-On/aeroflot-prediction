@@ -50,8 +50,7 @@ class SeasonsResponse(BaseResponse):
 
 class PredictResponse(BaseResponse):
     status: Status = Status.OK
-    date: list[str]
-    values: list[int]
+    data: dict
 
 
 class ProfileResponse(BaseResponse):

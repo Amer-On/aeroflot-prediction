@@ -6,24 +6,13 @@ from scipy.fft import rfft, irfft
 from typing import Tuple
 
 def get_seasons(df : pd.DataFrame):
-    flight = df.groupby('DTD')['PASS_BK'].sum()
-    std_dev = flight.std()
-    large_changes = (flight - flight.shift()).abs() > 0.15* std_dev
-    result = dict()
-    result['large_changes'] = flight[large_changes]
-    x = flight.index.to_numpy()
-    y = flight.values
+    df['dat_s'] = pd.to_datetime(df['dat_s'])
+    df['day'] = df['dat_s'].dt.day
+    df['month'] = df['dat_s'].dt.month
+    flight = df.groupby(['day', 'month'])['PASS_BK'].mean().reset_index()
+    flight = flight.set_index(flight[['day','month']].apply(lambda row: f"{row['month']:02d}-{row['day']:02d}", axis=1).values)['PASS_BK']
+    return flight.sort_index()
 
-    x_changes = flight[large_changes].index.to_numpy()
-
-    for i in range(1, len(x_changes)-1): 
-        x_changes_copy = np.delete(x_changes, i)
-        mask = np.isin(x, x_changes_copy)
-        X_subset = x[mask]
-        y_subset = y[mask]
-        approx = np.polyfit(X_subset, y_subset, 4)
-        result[x_changes[i]] = pd.Series(np.polyval(approx,X_subset), index = X_subset)
-    return result
 
 
 def get_dynamic(flight_dynamic: pd.DataFrame, period_start: str | None = None, period_end: str | None = None, fourier: int | None = None) \
@@ -67,10 +56,10 @@ def get_dynamic(flight_dynamic: pd.DataFrame, period_start: str | None = None, p
         if fourier_dynamic.size != flight_dynamic.size:
             fourier_dynamic = np.append(fourier_dynamic, flight_dynamic.values[-1])
         # Return dynamic and fourier smoothing
-        return flight_dynamic, fourier_dynamic
+        return flight_dynamic.sort_index(ascending = False), fourier_dynamic
 
     # Return dynamic
-    return flight_dynamic, None
+    return flight_dynamic.sort_index(ascending = False), None
 
 
 def get_demand_profile(df: pd.DataFrame, period: int = 365, fourier: int | None = None) \

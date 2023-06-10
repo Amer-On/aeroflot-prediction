@@ -28,10 +28,8 @@ async def report_seasons(
     print("Formatted finish")
     seasons = analytics.get_seasons(df=report_data)
     data = {}
-    for el in seasons:
-        data[str(el)] = {}
-        data[str(el)]['values'] = list(seasons[el])
-        data[str(el)]['indexes'] = list(seasons[el].keys())
+    data['indexes'] = list(seasons.index)
+    data['values'] = list([float(i) for i in seasons.values])
     return data
 
 
@@ -77,7 +75,7 @@ async def report_predict(
     report_data = report_for_predict(fetch_results)
     print("Formatted finish")
     data = prediction.predict(
-        flight=report_data,
+        df=report_data,
         class_code=seg_class_code,
         dep_day=date.day,
         dep_month=date.month,
