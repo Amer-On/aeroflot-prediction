@@ -30,10 +30,6 @@ async def report_seasons(
     data = {}
     data['indexes'] = list(seasons.index)
     data['values'] = list([float(i) for i in seasons.values])
-    #for el in seasons:
-    #    data[str(el)] = {}
-    #    data[str(el)]['values'] = list(seasons[el])
-    #    data[str(el)]['indexes'] = list(seasons[el].keys())
     return data
 
 
